@@ -4,7 +4,8 @@ import { TypeTheme } from './global.theme'
 const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
   html,
   body {
-    font-family: ${(props) => props.theme.font}
+    font-family: ${(props) => props.theme.font.fontFamily};
+    background-color: ${props => props.theme.colors.backgroundColor};
   }
 
   a {
