@@ -7,6 +7,7 @@ export interface TypeTheme {
     font: {
         fontFamily: string;
         h3FontColor: string;
+        pFontColor: string;
     }
 }
 
@@ -19,6 +20,7 @@ const theme: TypeTheme = {
     font: {
         fontFamily: 'Patrick Hand, cursive;',
         h3FontColor: '#FFFFFF',
+        pFontColor: '#cdc8c8',
     },
 }
 

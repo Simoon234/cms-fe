@@ -111,6 +111,7 @@ export const HeaderWrapper = styled.header`
       border: none;
       color: white;
       padding: 0 50px;
+      transition: box-shadow 250ms ease-in;
 
       &::placeholder {
         padding-left: 5px;
@@ -118,6 +119,7 @@ export const HeaderWrapper = styled.header`
 
       &:focus {
         outline: 1px solid transparent;
+        box-shadow: 0 0 5px white;
       }
     }
   }

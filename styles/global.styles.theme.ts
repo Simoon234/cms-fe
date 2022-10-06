@@ -11,7 +11,21 @@ const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
   li {
     list-style: none;
   }
-  
+
+  p {
+    line-height: 32px;
+    font-size: 18px;
+    color: ${props => props.theme.font.pFontColor};
+  }
+
+  h3 {
+    width: 339px;
+    font-size: 24px;
+    line-height: 38px;
+    margin-bottom: 10px;
+    color: ${props => props.theme.font.h3FontColor};
+  }
+
   a {
     color: inherit;
     text-decoration: none;
