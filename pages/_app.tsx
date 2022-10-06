@@ -4,6 +4,7 @@ import GlobalStyle from '../styles/global.styles.theme'
 import Header from '../Components/Header'
 import LayoutApp from '../layout/LayoutApp'
 import theme from '../styles/global.theme'
+import Footer from '../Components/common/Footer'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -12,6 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <LayoutApp>
                 <Header />
                 <Component {...pageProps} />
+                <Footer />
             </LayoutApp>
         </ThemeProvider>
     )
