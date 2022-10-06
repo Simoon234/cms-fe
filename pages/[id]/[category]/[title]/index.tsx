@@ -77,6 +77,16 @@ export const Details = styled.div`
     }
   }
 
+  img {
+    border-radius: 12px;
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      border-radius: 12px;
+      transform: scale(1.2);
+    }
+  }
+
   .author {
     margin-bottom: 28px;
   }
