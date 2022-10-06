@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import Link from 'next/link'
-import { BiSearch } from 'react-icons/all'
+import SearchIcon from '@mui/icons-material/Search'
 
-export const Header = () => {
+const Header = () => {
     return (
         <>
             <HeaderWrapper>
@@ -27,7 +27,7 @@ export const Header = () => {
                     </ul>
                 </nav>
                 <div className='search__box'>
-                    <BiSearch className='icon' />
+                    <SearchIcon className='icon' />
                     <input className='search' type='text' placeholder='Search...' />
                 </div>
             </HeaderWrapper>
@@ -99,7 +99,7 @@ export const HeaderWrapper = styled.header`
 
     .icon {
       position: absolute;
-      bottom: 30%;
+      bottom: 20%;
       left: 20px;
     }
 
@@ -123,3 +123,4 @@ export const HeaderWrapper = styled.header`
   }
 
 `
+export default Header

@@ -7,8 +7,7 @@ interface LayoutComponent {
     description: string;
     keywords: string;
 }
-
-export const Layout = ({ children, keywords, title, description }: LayoutComponent) => {
+const Layout = ({ children, keywords, title, description }: LayoutComponent) => {
     return (
         <>
             <Head>
@@ -25,3 +24,5 @@ export const Layout = ({ children, keywords, title, description }: LayoutCompone
         </>
     )
 }
+
+export default Layout

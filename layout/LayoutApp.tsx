@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-export const LayoutApp = ({children}: {children: ReactNode}) => {
+const LayoutApp = ({ children }: { children: ReactNode }) => {
     return (
         <LayoutWrapper>
             {children}
@@ -9,6 +9,7 @@ export const LayoutApp = ({children}: {children: ReactNode}) => {
     )
 }
 
+export default LayoutApp
 
 export const LayoutWrapper = styled.div`
   max-width: 1200px;
