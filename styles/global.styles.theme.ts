@@ -8,6 +8,10 @@ const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
     background-color: ${props => props.theme.colors.backgroundColor};
   }
 
+  li {
+    list-style: none;
+  }
+  
   a {
     color: inherit;
     text-decoration: none;
