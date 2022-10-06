@@ -8,6 +8,7 @@ const Articles: NextPage = () => {
     return (
         <ArticlesWrapper>
             <Card src={img1}
+                  id='1'
                   person='Andrew Sakjs'
                   job='UX Designer'
                   category='Sport'
@@ -16,6 +17,7 @@ const Articles: NextPage = () => {
                 Nostra netus per conubia dolor.'
                   title='How to design a product that can grow itself 10x in year' />
             <Card src={img1}
+                  id='2'
                   person='Andrew Sakjs'
                   job='UX Designer'
                   category='Sport'
@@ -24,6 +26,7 @@ const Articles: NextPage = () => {
                 Nostra netus per conubia dolor.'
                   title='How to design a product that can grow itself 10x in year' />
             <Card src={img1}
+                  id='3'
                   person='Andrew Sakjs'
                   job='UX Designer'
                   category='Sport'
@@ -32,6 +35,7 @@ const Articles: NextPage = () => {
                 Nostra netus per conubia dolor.'
                   title='How to design a product that can grow itself 10x in year' />
             <Card src={img1}
+                  id='4'
                   person='Andrew Sakjs'
                   job='UX Designer'
                   category='Sport'
@@ -40,6 +44,7 @@ const Articles: NextPage = () => {
                 Nostra netus per conubia dolor.'
                   title='How to design a product that can grow itself 10x in year' />
             <Card src={img1}
+                  id='5'
                   person='Andrew Sakjs'
                   job='UX Designer'
                   category='Sport'
@@ -48,6 +53,7 @@ const Articles: NextPage = () => {
                 Nostra netus per conubia dolor.'
                   title='How to design a product that can grow itself 10x in year' />
             <Card src={img1}
+                  id='6+'
                   person='Andrew Sakjs'
                   job='UX Designer'
                   category='Sport'

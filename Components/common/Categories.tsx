@@ -19,7 +19,6 @@ export const CategoriesStyle = styled.div`
   color: #f29f09;
 
   .category {
-    text-transform: uppercase;
     margin-right: 12px;
   }
 
