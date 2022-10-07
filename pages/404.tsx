@@ -24,6 +24,10 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 
+  h2 {
+    color: orange;
+  }
+
   small {
     margin-bottom: 2rem;
     font-size: 1.9rem;
