@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import Link from 'next/link'
 import SearchIcon from '@mui/icons-material/Search'
 
@@ -6,10 +6,12 @@ const Header = () => {
     return (
         <>
             <HeaderWrapper>
-                <div className='logo'>
-                    <Link href='/'><span /></Link>
-                    <p className='logo__text'>Simon</p>
-                </div>
+                <Link href='/'>
+                    <div className='logo'>
+                        <span />
+                        <p className='logo__text'>Simon</p>
+                    </div>
+                </Link>
                 <nav>
                     <ul>
                         <li>
@@ -36,6 +38,13 @@ const Header = () => {
     )
 }
 
+const rotate = keyframes`
+  50% {
+    box-shadow: 0 0 9px white
+  }
+`
+
+
 export const HeaderWrapper = styled.header`
   height: 15vh;
   display: flex;
@@ -46,6 +55,8 @@ export const HeaderWrapper = styled.header`
   .logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
+
 
     span {
       background-color: ${props => props.theme.colors.logoBg};
@@ -57,6 +68,8 @@ export const HeaderWrapper = styled.header`
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 0 3px white;
+      animation: ${rotate} 10s linear infinite;
 
       &:after {
         content: "S";
@@ -123,6 +136,5 @@ export const HeaderWrapper = styled.header`
       }
     }
   }
-
 `
 export default Header
