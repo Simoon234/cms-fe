@@ -94,6 +94,7 @@ export const Details = styled.div`
   .description {
     margin-top: 70px;
     text-align: left;
+    width: 750px;
 
     .first {
       margin-bottom: 20px;
