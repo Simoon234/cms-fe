@@ -1,66 +1,34 @@
-import { NextPage } from 'next'
 import Card from './common/Card'
-import img1 from '../public/assets/1.jpg'
 import styled from 'styled-components'
+import { Data, ResponseDataType } from '../types'
+import { CardLoading } from './common/CardLoading'
 
 
-const Articles: NextPage = () => {
+const Articles = ({ data, isLoading }: { data: Data, isLoading: boolean }) => {
+    const firstLetterUppercase = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
+
+    console.log(data)
+
     return (
         <ArticlesWrapper>
-            <Card src={img1}
-                  id='1'
-                  person='Andrew Sakjs'
-                  job='UX Designer'
-                  category='Sport'
-                  date='May 02, 2022'
-                  description='Auctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum.
-                Nostra netus per conubia dolor.'
-                  title='How to design a product that can grow itself 10x in year' />
-            <Card src={img1}
-                  id='2'
-                  person='Andrew Sakjs'
-                  job='UX Designer'
-                  category='Sport'
-                  date='May 02, 2022'
-                  description='Auctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum.
-                Nostra netus per conubia dolor.'
-                  title='How to design a product that can grow itself 10x in year' />
-            <Card src={img1}
-                  id='3'
-                  person='Andrew Sakjs'
-                  job='UX Designer'
-                  category='Sport'
-                  date='May 02, 2022'
-                  description='Auctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum.
-                Nostra netus per conubia dolor.'
-                  title='How to design a product that can grow itself 10x in year' />
-            <Card src={img1}
-                  id='4'
-                  person='Andrew Sakjs'
-                  job='UX Designer'
-                  category='Sport'
-                  date='May 02, 2022'
-                  description='Auctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum.
-                Nostra netus per conubia dolor.'
-                  title='How to design a product that can grow itself 10x in year' />
-            <Card src={img1}
-                  id='5'
-                  person='Andrew Sakjs'
-                  job='UX Designer'
-                  category='Sport'
-                  date='May 02, 2022'
-                  description='Auctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum.
-                Nostra netus per conubia dolor.'
-                  title='How to design a product that can grow itself 10x in year' />
-            <Card src={img1}
-                  id='6+'
-                  person='Andrew Sakjs'
-                  job='UX Designer'
-                  category='Sport'
-                  date='May 02, 2022'
-                  description='Auctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum.
-                Nostra netus per conubia dolor.'
-                  title='How to design a product that can grow itself 10x in year' />
+            {data.data && data.data.map((item: ResponseDataType) =>
+                <>
+                    {isLoading ? <CardLoading /> : <Card
+                        description={item.attributes.description.length < 300 ? item.attributes.description : `${item.attributes.description.slice(0, 166)}...`}
+                        key={item.id}
+                        id={item.id.toString()}
+                        avatar={`http://localhost:1337`}
+                        category={item.attributes.categories}
+                        job={item.attributes.author.data.attributes.job}
+                        person={`${firstLetterUppercase(item.attributes.author.data.attributes.name)} ${item.attributes.author.data.attributes.surname.slice(0, 2)}.`}
+                        date={new Date(item.attributes.createdAt).toLocaleString()}
+                        title={item.attributes.title}
+                        src={`http://localhost:1337${item.attributes.photo.data.map((item) => item.attributes.formats.thumbnail.url)}`}
+                        height={item.attributes.photo.data.map((item) => item.attributes.height)[0]}
+                        width={item.attributes.photo.data.map((item) => item.attributes.width)[0]}
+                    />}
+                </>,
+            )}
         </ArticlesWrapper>
     )
 }

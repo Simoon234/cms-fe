@@ -5,6 +5,9 @@ const nextConfig = {
   future: {
     webpack5: false,
   },
+  images: {
+    domains: ['localhost'],
+  },
 }
 
 module.exports = nextConfig

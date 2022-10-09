@@ -5,17 +5,22 @@ import Header from '../Components/Header'
 import LayoutApp from '../layout/LayoutApp'
 import theme from '../styles/global.theme'
 import Footer from '../Components/common/Footer'
+import { Provider } from 'react-redux'
+import { store } from '../redux/store/store'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
-        <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <LayoutApp>
-                <Header />
-                <Component {...pageProps} />
-                <Footer />
-            </LayoutApp>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                <LayoutApp>
+                    <Header />
+                    <Component {...pageProps} />
+                    <Footer />
+                </LayoutApp>
+            </ThemeProvider>
+        </Provider>
+
     )
 }
 

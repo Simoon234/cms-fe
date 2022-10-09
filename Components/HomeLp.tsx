@@ -1,25 +1,43 @@
 import styled from 'styled-components'
 import Image from 'next/image'
-import img from '../public/assets/mockImg2.jpg'
 import Categories from './common/Categories'
+import { Author as TypeAuthor, Photo } from '../types'
 import Author from './common/Author'
 
-export const HomeLp = () => {
+interface Latest {
+    latest: {
+        attributes: {
+            title: string;
+            description: string;
+            categories: string;
+            author: TypeAuthor;
+            createdAt: string;
+            photo: Photo;
+        }
+    }
+}
+
+
+export const HomeLp = ({ latest }: Latest) => {
+    const photo = latest?.attributes?.photo?.data?.map(item => item?.attributes)[0].formats?.thumbnail?.url
+
     return (
         <Home>
-            <Image width={1200} height={600} src={img} />
+            {photo && <Image width={1200} height={600} src={`http://localhost:1337${photo}`} />}
             <div className='content__box'>
-                <Categories category='SPORT' date='Jul 2, 2022' />
+                <Categories category={latest?.attributes?.categories}
+                            date={new Date(latest?.attributes?.createdAt).toLocaleString()} />
                 <div className='content__box-mid'>
-                    <h3>Understanding color theory: the color wheel and finding complementary colors</h3>
-                    <p>Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate
-                        exercitation incididunt aliquip deserunt reprehenderit elit laborum. </p>
+                    <h3>{latest?.attributes?.title}</h3>
+                    <p>{latest?.attributes?.description}</p>
                 </div>
-                <Author job='UI Designer' person='Leslie Alexander' />
+                <Author job={latest?.attributes?.author?.data?.attributes?.job}
+                        person={latest?.attributes?.author?.data?.attributes?.name} />
             </div>
         </Home>
     )
 }
+
 
 export const Home = styled.div`
   display: flex;

@@ -1,8 +1,16 @@
 import styled, { keyframes } from 'styled-components'
 import Link from 'next/link'
 import SearchIcon from '@mui/icons-material/Search'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import { FC, useState } from 'react'
+import { DropDownMenu } from './common/DropDownMenu'
 
-const Header = () => {
+const Header: FC = () => {
+    const [openDropDown, useOpenDropDown] = useState<boolean>(false)
+
+    const toggleOpenDropDown = () => useOpenDropDown(prev => !prev)
+
     return (
         <>
             <HeaderWrapper>
@@ -23,10 +31,12 @@ const Header = () => {
                         <li>
                             <Link href='/luxury'>Luxury</Link>
                         </li>
-                        <li>
+                        <li onClick={toggleOpenDropDown}>
                             Account
+                            {openDropDown ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                         </li>
                     </ul>
+                    {openDropDown && <DropDownMenu />}
                 </nav>
                 <div className='search__box'>
                     <SearchIcon className='icon' />
@@ -97,6 +107,10 @@ export const HeaderWrapper = styled.header`
 
       &:last-child {
         margin-right: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
       }
 
       a {

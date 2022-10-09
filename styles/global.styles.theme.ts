@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
     line-height: 32px;
     font-size: 18px;
     color: ${props => props.theme.font.pFontColor};
+    word-break: break-word;
   }
 
   h3 {
