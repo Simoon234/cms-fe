@@ -9,6 +9,7 @@ interface Initial {
     isSuccess: boolean;
     isFetching: boolean;
     errorMessage: string;
+    totalPages: number;
 }
 
 const initialState: Initial = {
@@ -18,16 +19,18 @@ const initialState: Initial = {
     isSuccess: false,
     isFetching: false,
     errorMessage: '',
+    totalPages: 0,
 }
 
 export const getData = createAsyncThunk(
     'data/getData',
-    async (values, thunk) => {
+    async (values: any, thunk) => {
         try {
-            const res = await fetch(`${URL}/articles?populate=author,photo`)
+            const res = await fetch(`${URL}/articles?populate=author,photo&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
             const data = await res.json()
             return {
                 data: data.data,
+                totalPages: data.meta.pagination.total,
             }
         } catch (e: any) {
             return thunk.rejectWithValue({ ...e.response.data })
@@ -60,10 +63,12 @@ export const dataSlice = createSlice({
             state.isFetching = true
         },
         [getData.fulfilled.toString()]: (state, { payload }) => {
+            console.log('siema', payload)
             state.isFetching = false
             state.isSuccess = true
             state.isLoading = false
             state.data = payload
+            state.totalPages = payload
         },
         [getData.rejected.toString()]: (state, { payload }) => {
             state.isFetching = false
