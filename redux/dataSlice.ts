@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { URL } from '../api.url.config'
+
 
 interface Initial {
     data: any;
@@ -22,7 +24,7 @@ export const getData = createAsyncThunk(
     'data/getData',
     async (values, thunk) => {
         try {
-            const res = await fetch(`http://localhost:1337/api/articles?populate=author,photo`)
+            const res = await fetch(`${URL}/articles?populate=author,photo`)
             const data = await res.json()
             return {
                 data: data.data,
@@ -37,7 +39,7 @@ export const getLatestData = createAsyncThunk(
     'data/getLatestData',
     async (values, thunk) => {
         try {
-            const res = await fetch(`http://localhost:1337/api/articles?populate=photo,author&sort[createdAt]=DESC`)
+            const res = await fetch(`${URL}/articles?populate=photo,author&sort[createdAt]=DESC`)
             const data = await res.json()
             return {
                 latest: data.data[0],
