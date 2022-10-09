@@ -4,12 +4,13 @@ import styled from 'styled-components'
 interface Avatar {
     person: string;
     job: string;
+    src?: string;
 }
 
-const Author = ({ job, person }: Avatar) => {
+const Author = ({ job, person, src }: Avatar) => {
     return (
         <Av>
-            <Avatar className='avatar' />
+            <Avatar src={src} className='avatar' />
             <div className='content__box-bottom-info'>
                 <p>{person}</p>
                 <small>{job}</small>

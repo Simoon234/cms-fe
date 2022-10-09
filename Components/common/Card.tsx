@@ -1,37 +1,41 @@
 import styled from 'styled-components'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
 import Categories from './Categories'
 import Author from './Author'
 import Link from 'next/link'
 
 interface Card {
     id: string;
-    src: StaticImageData;
+    src: any;
     category: string;
     date: string;
     title: string;
     description: string;
     job: string;
     person: string;
+    width: number;
+    height: number;
+    avatar: string;
 }
 
-const Card = ({ src, category, date, description, title, job, person, id }: Card) => {
+const Card = ({ src, category, date, description, title, job, person, avatar, id, width, height }: Card) => {
     return (
         <Link href={`${id}/${category}/${title}`}>
             <Cards>
-                <Image src={src} />
+                <Image src={src} width={width} height={height} />
                 <div className='category__wrapper'>
                     <Categories category={category} date={date} />
                 </div>
                 <h3>{title}</h3>
                 <p>{description}</p>
-                <Author job={job} person={person} />
+                <Author job={job} person={person} src={avatar} />
             </Cards>
         </Link>
     )
 }
 
 export const Cards = styled.div`
+  position: relative;
   max-width: 340px;
   min-height: 506px;
   width: 100%;
@@ -39,6 +43,9 @@ export const Cards = styled.div`
   margin: 60px 30px 60px 0;
   transition: 250ms ease-in-out;
   padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &:hover {
     box-shadow: 0 0 10px white;
