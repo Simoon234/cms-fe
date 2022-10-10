@@ -30,7 +30,7 @@ export const getData = createAsyncThunk(
             const data = await res.json()
             return {
                 data: data.data,
-                totalPages: data.meta.pagination.total,
+                totalPages: data.meta.pagination.pageCount,
             }
         } catch (e: any) {
             return thunk.rejectWithValue({ ...e.response.data })

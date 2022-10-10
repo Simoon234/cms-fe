@@ -7,6 +7,8 @@ import theme from '../styles/global.theme'
 import Footer from '../Components/common/Footer'
 import { Provider } from 'react-redux'
 import { store } from '../redux/store/store'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -14,6 +16,17 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ThemeProvider theme={theme}>
                 <GlobalStyle />
                 <LayoutApp>
+                    <ToastContainer
+                        position='top-right'
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        draggable
+                        pauseOnFocusLoss={false}
+                        pauseOnHover={false}
+                    />
                     <Header />
                     <Component {...pageProps} />
                     <Footer />

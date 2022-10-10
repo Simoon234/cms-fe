@@ -23,8 +23,6 @@ const Home = () => {
         dispatch(getLatestData())
     }, [dispatch])
 
-    console.log(data)
-    console.log(latest)
 
     return (
         <>
