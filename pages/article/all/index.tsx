@@ -1,33 +1,23 @@
-import { GetStaticProps } from 'next'
-import { UseAppSelectorHook } from '../../../hooks/useAppSelectorHook'
-import { useEffect, useState } from 'react'
-import { UseDispatchHook } from '../../../hooks/useDispatchHook'
-import { getData } from '../../../redux/dataSlice'
+import { GetServerSideProps } from 'next'
 import { Box } from '../../../Components/common/Box'
 import Stack from '@mui/material/Stack'
 import Pagination from '@mui/material/Pagination'
 import styled from 'styled-components'
+import { API_URL } from '../../../api.url.config'
+import { ResponseDataType } from '../../../types'
+import {toast} from "react-toastify";
 
 
-const AllArticles = () => {
-    const dispatch = UseDispatchHook()
-    const { data: { data }, isLoading, totalPages } = UseAppSelectorHook(state => state.data)
-    const [page, setPage] = useState<number>(1)
-    const [itemsOnePage, setItemsOnePage] = useState<number>(3)
-    useEffect(() => {
-        dispatch(getData({
-            page,
-            itemsOnePage,
-        }))
-    }, [dispatch, page, itemsOnePage])
+const AllArticles = (data: any) => {
+    console.log(data)
     return (
         <>
-            {data && data.map((item: any) =>
-                <Box attributes={item.attributes} id={item.id} />,
+            {data.data && data.data.map((item: ResponseDataType) =>
+                <Box key={item.id} attributes={item.attributes} id={item.id} />,
             )}
             <PaginationWrapper>
                 <Stack className='stack' spacing={2}>
-                    <Pagination color='secondary' count={totalPages.totalPages} />
+                    <Pagination color='secondary' count={data.pageCount} />
                 </Stack>
             </PaginationWrapper>
         </>
@@ -45,11 +35,14 @@ export const PaginationWrapper = styled.div`
   }
 `
 
-export const getStaticProps: GetStaticProps = () => {
-
+export const getServerSideProps: GetServerSideProps = async () => {
+    const res = await fetch(`${API_URL}/articles?populate=*`);
+    const data = await res.json();
     return {
-        props: {},
+        props: {
+            data: data.data,
+            pageCount: data.meta.pagination.pageCount,
+        }
     }
 }
-
 export default AllArticles

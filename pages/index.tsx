@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { getData, getLatestData } from '../redux/dataSlice'
 import { UseAppSelectorHook } from '../hooks/useAppSelectorHook'
 import { RootState } from '../redux/store/store'
+import { GlobalLoading } from '../Components/common/GlobalLoading'
 
 const Home = () => {
     const [page, setPage] = useState<number>(1)
@@ -21,14 +22,14 @@ const Home = () => {
             itemsOnePage,
         }))
         dispatch(getLatestData())
-    }, [dispatch])
+    }, [dispatch, itemsOnePage, page])
 
 
     return (
         <>
             <Layout title='Blog for you' keywords='sport, luxury, fashion' description='Super modern blog content'>
-                <HomeLp latest={latest.latest} />
-                <Articles data={data} isLoading={isLoading} />
+                {isLoading ? <GlobalLoading/> : <HomeLp latest={latest.latest} />}
+                {isLoading ? <GlobalLoading/> : <Articles data={data} isLoading={isLoading} />}
             </Layout>
         </>
 

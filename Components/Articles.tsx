@@ -7,8 +7,6 @@ import { CardLoading } from './common/CardLoading'
 const Articles = ({ data, isLoading }: { data: Data, isLoading: boolean }) => {
     const firstLetterUppercase = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
 
-    console.log(data)
-
     return (
         <ArticlesWrapper>
             {data.data && data.data.map((item: ResponseDataType) =>

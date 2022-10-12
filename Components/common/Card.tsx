@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Categories from './Categories'
 import Author from './Author'
 import Link from 'next/link'
+import {UseHomeRouter} from "../../hooks/useHomeRouter";
+import { useState } from 'react'
+import {GlobalLoading} from "./GlobalLoading";
 
 interface Card {
     id: string;
@@ -19,18 +22,26 @@ interface Card {
 }
 
 const Card = ({ src, category, date, description, title, job, person, avatar, id, width, height }: Card) => {
+    const {push} = UseHomeRouter();
+    const [loading, setLoading] = useState(false);
+    const changePath = async () => {
+        setLoading(true);
+        await push(`${id}/${category}/${title}`);
+        setLoading(false);
+    }
     return (
-        <Link href={`${id}/${category}/${title}`}>
-            <Cards>
-                <Image src={src} width={width} height={height} />
+        <a onClick={changePath}>
+            {loading ? <GlobalLoading/> :  <Cards>
+                <Image alt='image' src={src} width={width} height={height} />
                 <div className='category__wrapper'>
                     <Categories category={category} date={date} />
                 </div>
                 <h3>{title}</h3>
                 <p>{description}</p>
                 <Author job={job} person={person} src={avatar} />
-            </Cards>
-        </Link>
+            </Cards>}
+
+        </a>
     )
 }
 

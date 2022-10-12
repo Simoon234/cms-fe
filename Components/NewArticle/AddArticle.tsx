@@ -1,29 +1,53 @@
 import styled from 'styled-components'
-import { UseHomeRouter } from '../../hooks/useHomeRouter'
-import { Button } from '@mui/material'
+import {UseHomeRouter} from '../../hooks/useHomeRouter'
+import {Button} from '@mui/material'
 import Layout from '../../layout/LayoutComponent'
 import SendIcon from '@mui/icons-material/Send'
-import { FormEvent, memo, useState } from 'react'
-import { toast } from 'react-toastify'
-import { URL } from '../../api.url.config'
+import React, {FormEvent, useCallback, useEffect, useState} from 'react'
+import {toast} from 'react-toastify'
+import {API_URL} from '../../api.url.config'
+import Image from "next/image";
+import {CardLoading} from "../common/CardLoading";
+import {GlobalLoading} from "../common/GlobalLoading";
 
-export const AddArticle = memo(() => {
+
+// eslint-disable-next-line react/display-name
+export const AddArticle = React.memo(() => {
     const [title, setTitle] = useState<string>('')
     const [desc, setDesc] = useState<string>('')
     const [category, setCategory] = useState<string>('')
     const [image, setImage] = useState<HTMLImageElement | null>(null)
-    const { push } = UseHomeRouter()
+    const [prevImg, setPrevImg] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false)
+    const { push } = UseHomeRouter();
+
+
+    const handleUpload = async () => {
+        const formData = new FormData();
+        formData.append('files', image as any);
+        formData.append('ref', 'articles');
+        const res = await fetch(`${API_URL}/upload`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
+        return {
+            id: data[0]?.id
+        }
+    }
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
+        setLoading(true);
         try {
             if (title === '' || desc === '' || image === null || category === '') {
+                setLoading(false);
                 return toast.error('Please, fill all required fields', {
                     theme: 'colored',
                 })
             }
-
-            const res = await fetch(`${URL}/articles`, {
+            const {id} = await handleUpload();
+            const res = await fetch(`${API_URL}/articles`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -33,21 +57,32 @@ export const AddArticle = memo(() => {
                         title,
                         description: desc,
                         categories: category,
+                        photo: id
                     },
                 }),
             })
-
             if (!res.ok) {
+                setLoading(false);
                 toast.error('Something went wrong')
             } else {
-                const data = await res.json()
+                const data = await res.json();
                 await push(`/${data.data.id}/${data.data.attributes.categories}/${data.data.attributes.title}`)
+                setLoading(false);
             }
 
         } catch (e: any) {
-            console.error(e)
+            console.error(e.message);
+            setLoading(false);
+
         }
     }
+
+    const handleChanges = useCallback((e: any) => {
+        setImage(e.target.files[0]);
+        setPrevImg(URL.createObjectURL(e.target.files[0]));
+    },[]);
+
+
 
     return (
         <Layout title='Add new article' description='Make new article' keywords='add,post,new,article'>
@@ -69,10 +104,10 @@ export const AddArticle = memo(() => {
                             <option value='fashion'>fashion</option>
                             <option value='luxury'>luxury</option>
                         </select>
-                        <Button style={{ backgroundColor: 'orange' }} variant='contained' component='label'>
-                            Upload
-                            <input onChange={(e: any) => setImage(e.target.files[0])} hidden accept='image/*' multiple
-                                   type='file' />
+                        <Button style={{backgroundColor: 'orange'}} variant='contained' component='label'>
+                            Upload {image ? (image?.name) : ""}
+                            <input onChange={handleChanges} hidden accept='image/*' multiple
+                                   type='file'/>
                         </Button>
                         <div className='buttons'>
                             <Button size='large' className='button' variant='contained' onClick={() => push('/')}>Go
@@ -81,6 +116,10 @@ export const AddArticle = memo(() => {
                                     variant='contained'>SEND</Button>
                         </div>
                     </form>
+                    <div className='imgShow'>
+                        {prevImg && <Image src={prevImg} width={300} height={200} alt='test'/>}
+                    </div>
+                    {loading && <GlobalLoading/>}
                 </div>
             </FormWrapper>
         </Layout>
@@ -122,6 +161,14 @@ export const FormWrapper = styled.div`
           background-color: #f7c70f;
         }
       }
+    }
+  }
+  
+  .imgShow {
+    
+    img {
+      border-radius: 12px;
+      
     }
   }
 `
