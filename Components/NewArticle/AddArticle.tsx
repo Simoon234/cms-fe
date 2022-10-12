@@ -167,7 +167,6 @@ export const FormWrapper = styled.div`
     
     img {
       border-radius: 12px;
-      
     }
   }
 `
