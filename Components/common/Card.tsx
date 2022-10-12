@@ -2,9 +2,8 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import Categories from './Categories'
 import Author from './Author'
-import Link from 'next/link'
 import {UseHomeRouter} from "../../hooks/useHomeRouter";
-import { useState } from 'react'
+import {useState} from 'react'
 import {GlobalLoading} from "./GlobalLoading";
 
 interface Card {
@@ -47,7 +46,7 @@ const Card = ({ src, category, date, description, title, job, person, avatar, id
 
 export const Cards = styled.div`
   position: relative;
-  max-width: 340px;
+  max-width: 360px;
   min-height: 506px;
   width: 100%;
   border-radius: 12px;

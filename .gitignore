@@ -36,4 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 .env
-api.url.config.ts
+api.config.ts

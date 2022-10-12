@@ -1,22 +1,36 @@
-import styled, { keyframes } from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 import Link from 'next/link'
 import SearchIcon from '@mui/icons-material/Search'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
-import { FC, useState } from 'react'
-import { DropDownMenu } from './common/DropDownMenu'
+import {ChangeEvent, FC, FormEvent, useState} from 'react'
+import {DropDownMenu} from './common/DropDownMenu'
+import {UseDispatchHook} from "../hooks/useDispatchHook";
+import {getText} from "../redux/searchSlice";
+
 
 const Header: FC = () => {
-    const [openDropDown, useOpenDropDown] = useState<boolean>(false)
+    const [openDropDown, setOpenDropDown] = useState<boolean>(false)
+    const toggleOpenDropDown = () => setOpenDropDown(prev => !prev)
+    const [text, setText] = useState<string>('');
+    const dispatch = UseDispatchHook();
 
-    const toggleOpenDropDown = () => useOpenDropDown(prev => !prev)
+
+    const handleSearch = (e: FormEvent) => {
+        e.preventDefault();
+        dispatch(getText(text));
+    }
+
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setText(e.target.value);
+    }
 
     return (
         <>
             <HeaderWrapper>
                 <Link href='/'>
                     <div className='logo'>
-                        <span />
+                        <span/>
                         <p className='logo__text'>Simon</p>
                     </div>
                 </Link>
@@ -33,14 +47,16 @@ const Header: FC = () => {
                         </li>
                         <li onClick={toggleOpenDropDown}>
                             Account
-                            {openDropDown ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                            {openDropDown ? <ArrowDropUpIcon/> : <ArrowDropDownIcon/>}
                         </li>
                     </ul>
-                    {openDropDown && <DropDownMenu />}
+                    {openDropDown && <DropDownMenu/>}
                 </nav>
                 <div className='search__box'>
-                    <SearchIcon className='icon' />
-                    <input className='search' type='text' placeholder='Search...' />
+                    <SearchIcon className='icon'/>
+                    <form onSubmit={handleSearch}>
+                        <input onChange={handleOnChange} className='search' type='text' placeholder='Search...'/>
+                    </form>
                 </div>
             </HeaderWrapper>
         </>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import SendIcon from '@mui/icons-material/Send'
 import {Button} from '@mui/material'
 import React, {FormEvent, useCallback, useEffect, useState} from 'react'
-import {API_URL} from '../../api.url.config'
+import {API_URL} from '../../api.config'
 import {toast} from 'react-toastify'
 import {UseHomeRouter} from '../../hooks/useHomeRouter'
 import Image from "next/image";

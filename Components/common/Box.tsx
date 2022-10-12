@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import Image from 'next/image'
-import { ResponseDataType } from '../../types'
+import {ResponseDataType} from '../../types'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import CreateIcon from '@mui/icons-material/Create'
 import {useState} from 'react'
-import { EditComponent } from './Edit'
-import { API_URL } from '../../api.url.config'
-import { toast } from 'react-toastify'
-import { UseHomeRouter } from '../../hooks/useHomeRouter'
+import {EditComponent} from './Edit'
+import {API_URL} from '../../api.config'
+import {toast} from 'react-toastify'
+import {UseHomeRouter} from '../../hooks/useHomeRouter'
 
 
 export const Box = (data: ResponseDataType) => {

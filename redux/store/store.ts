@@ -1,11 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 import dataSlice from '../dataSlice'
-import { authorSlice } from '../authorSlice'
+import {authorSlice} from '../authorSlice'
+import {searchSlice} from "../searchSlice";
 
 export const store = configureStore({
     reducer: {
         data: dataSlice,
         author: authorSlice.reducer,
+        searchText: searchSlice.reducer
     },
 })
 

@@ -3,11 +3,10 @@ import {UseHomeRouter} from '../../hooks/useHomeRouter'
 import {Button} from '@mui/material'
 import Layout from '../../layout/LayoutComponent'
 import SendIcon from '@mui/icons-material/Send'
-import React, {FormEvent, useCallback, useEffect, useState} from 'react'
+import React, {FormEvent, useCallback, useState} from 'react'
 import {toast} from 'react-toastify'
-import {API_URL} from '../../api.url.config'
+import {API_URL} from '../../api.config'
 import Image from "next/image";
-import {CardLoading} from "../common/CardLoading";
 import {GlobalLoading} from "../common/GlobalLoading";
 
 

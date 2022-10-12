@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API_URL } from '../api.url.config'
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {API_URL} from '../api.config'
 
 
 interface Initial {
@@ -26,14 +26,14 @@ export const getData = createAsyncThunk(
     'data/getData',
     async (values: any, thunk) => {
         try {
-            const res = await fetch(`${API_URL}/articles?populate=author,photo&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
+            const res = await fetch(`${API_URL}/articles?filters[title][$contains]=${values.searchText}&populate=author,photo&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
             const data = await res.json()
             return {
                 data: data.data,
                 totalPages: data.meta.pagination.pageCount,
             }
         } catch (e: any) {
-            return thunk.rejectWithValue({ ...e.response.data })
+            return thunk.rejectWithValue({...e.response.data})
         }
     },
 )
@@ -48,7 +48,7 @@ export const getLatestData = createAsyncThunk(
                 latest: data.data[0],
             }
         } catch (e: any) {
-            return thunk.rejectWithValue({ ...e.response.data })
+            return thunk.rejectWithValue({...e.response.data})
         }
     },
 )
@@ -62,14 +62,14 @@ export const dataSlice = createSlice({
             state.isLoading = true
             state.isFetching = true
         },
-        [getData.fulfilled.toString()]: (state, { payload }) => {
+        [getData.fulfilled.toString()]: (state, {payload}) => {
             state.isFetching = false
             state.isSuccess = true
             state.isLoading = false
             state.data = payload
             state.totalPages = payload
         },
-        [getData.rejected.toString()]: (state, { payload }) => {
+        [getData.rejected.toString()]: (state, {payload}) => {
             state.isFetching = false
             state.isSuccess = false
             state.isLoading = false
@@ -79,13 +79,13 @@ export const dataSlice = createSlice({
             state.isLoading = true
             state.isFetching = true
         },
-        [getLatestData.fulfilled.toString()]: (state, { payload }) => {
+        [getLatestData.fulfilled.toString()]: (state, {payload}) => {
             state.isFetching = false
             state.isSuccess = true
             state.isLoading = false
             state.latest = payload
         },
-        [getLatestData.rejected.toString()]: (state, { payload }) => {
+        [getLatestData.rejected.toString()]: (state, {payload}) => {
             state.isFetching = false
             state.isSuccess = false
             state.isLoading = false
