@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { URL } from '../api.url.config'
+import { API_URL } from '../api.url.config'
 
 
 interface Initial {
@@ -26,7 +26,7 @@ export const getData = createAsyncThunk(
     'data/getData',
     async (values: any, thunk) => {
         try {
-            const res = await fetch(`${URL}/articles?populate=author,photo&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
+            const res = await fetch(`${API_URL}/articles?populate=author,photo&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
             const data = await res.json()
             return {
                 data: data.data,
@@ -42,7 +42,7 @@ export const getLatestData = createAsyncThunk(
     'data/getLatestData',
     async (values, thunk) => {
         try {
-            const res = await fetch(`${URL}/articles?populate=photo,author&sort[createdAt]=DESC`)
+            const res = await fetch(`${API_URL}/articles?populate=photo,author&sort[createdAt]=DESC`)
             const data = await res.json()
             return {
                 latest: data.data[0],
@@ -63,7 +63,6 @@ export const dataSlice = createSlice({
             state.isFetching = true
         },
         [getData.fulfilled.toString()]: (state, { payload }) => {
-            console.log('siema', payload)
             state.isFetching = false
             state.isSuccess = true
             state.isLoading = false
