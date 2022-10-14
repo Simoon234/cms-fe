@@ -1,20 +1,21 @@
-import type { AppProps } from 'next/app'
-import { ThemeProvider } from 'styled-components'
+import type {AppProps} from 'next/app'
+import {ThemeProvider} from 'styled-components'
 import GlobalStyle from '../styles/global.styles.theme'
 import Header from '../Components/Header'
 import LayoutApp from '../layout/LayoutApp'
 import theme from '../styles/global.theme'
 import Footer from '../Components/common/Footer'
-import { Provider } from 'react-redux'
-import { store } from '../redux/store/store'
-import { ToastContainer } from 'react-toastify'
+import {Provider} from 'react-redux'
+import {store} from '../redux/store/store'
+import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {User} from "../Components/User";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({Component, pageProps}: AppProps) {
     return (
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <GlobalStyle />
+                <GlobalStyle/>
                 <LayoutApp>
                     <ToastContainer
                         position='top-right'
@@ -27,7 +28,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                         pauseOnFocusLoss={false}
                         pauseOnHover={false}
                     />
-                    <Header />
+                    <Header/>
+                    <User/>
                     <Component {...pageProps} />
                     <Footer />
                 </LayoutApp>
