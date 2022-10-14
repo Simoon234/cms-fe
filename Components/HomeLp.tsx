@@ -34,6 +34,7 @@ export const HomeLp = ({ latest }: Latest) => {
                     <p>{latest?.attributes?.description.slice(0, 300)}...</p>
                 </div>
                 <Author job={latest?.attributes?.author?.data?.attributes?.job}
+                        src={latest.attributes.author.data.attributes.avatar}
                         person={latest?.attributes?.author?.data?.attributes?.firstname}/>
             </div>
         </Home>
