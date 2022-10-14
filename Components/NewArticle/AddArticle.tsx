@@ -8,6 +8,7 @@ import {toast} from 'react-toastify'
 import {API_URL} from '../../api.config'
 import Image from "next/image";
 import {GlobalLoading} from "../common/GlobalLoading";
+import {UseAppSelectorHook} from "../../hooks/useAppSelectorHook";
 
 
 // eslint-disable-next-line react/display-name
@@ -18,9 +19,9 @@ export const AddArticle = React.memo(() => {
     const [image, setImage] = useState<HTMLImageElement | null>(null)
     const [prevImg, setPrevImg] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false)
-    const { push } = UseHomeRouter();
-
-
+    const {push} = UseHomeRouter();
+    const {id: authorId} = UseAppSelectorHook(state => state.user);
+    console.log(authorId)
     const handleUpload = async () => {
         const formData = new FormData();
         formData.append('files', image as any);
@@ -46,7 +47,7 @@ export const AddArticle = React.memo(() => {
                 })
             }
             const {id} = await handleUpload();
-            const res = await fetch(`${API_URL}/articles`, {
+            const res = await fetch(`${API_URL}/articles?populate=*`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -56,7 +57,8 @@ export const AddArticle = React.memo(() => {
                         title,
                         description: desc,
                         categories: category,
-                        photo: id
+                        photo: id,
+                        author: [authorId],
                     },
                 }),
             })
