@@ -9,8 +9,6 @@ interface Pagination {
 }
 
 export const PaginationCompo = ({handlePage, totalPages, page}: Pagination) => {
-
-
     return (
         <PaginationWrapper>
             <Stack className='stack' spacing={10}>
