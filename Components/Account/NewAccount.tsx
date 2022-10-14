@@ -1,16 +1,33 @@
 import Layout from "../../layout/LayoutComponent";
-import {InitialFormValues, initialValues, validateFunction} from "../../validation/validation";
+import {InitialFormValues, initialValues, validateRegisterFunction} from "../../validation/registerValidation";
 import {useFormik} from "formik";
 import {SignupSchema} from "../../validation/schemaValidation";
 import styled from "styled-components";
 import Link from "next/link";
+import {UseDispatchHook} from "../../hooks/useDispatchHook";
+import {UseAppSelectorHook} from "../../hooks/useAppSelectorHook";
+import {signNewUser} from "../../redux/userSlice";
+import {useEffect} from "react";
+import {toast} from "react-toastify";
 
 export const NewAccountCreate = () => {
+    const dispatch = UseDispatchHook();
+    const {isSuccessRegister, registerErrorMessage, isError, isFetching} = UseAppSelectorHook(state => state.user);
+
+    useEffect(() => {
+        if (isSuccessRegister) {
+            toast.success('Success! Register completed successfully.', {
+                pauseOnFocusLoss: false,
+                pauseOnHover: false,
+            });
+        }
+    }, [isSuccessRegister, registerErrorMessage]);
+
+    console.log(isSuccessRegister, registerErrorMessage, isError)
     const onSubmit = async (values: InitialFormValues, actions: any) => {
-        // post
+        await dispatch(signNewUser(values))
         actions.resetForm();
     }
-
     const {
         values,
         errors,
@@ -19,7 +36,12 @@ export const NewAccountCreate = () => {
         handleBlur,
         handleChange,
         handleSubmit
-    } = useFormik({initialValues, validationSchema: SignupSchema, validate: validateFunction, onSubmit});
+    } = useFormik({
+        initialValues, validationSchema: SignupSchema, validate: () => {
+            validateRegisterFunction(values)
+        }, onSubmit
+    });
+
     return (
         <Layout title='Create new account' description='Register new account'
                 keywords='new account, profile, register, create'>
@@ -59,6 +81,17 @@ export const NewAccountCreate = () => {
                         className={errors.email && touched.email ? "input-error" : ""}
                     />
                     {errors.email && touched.email && <p className="error">{errors.email}</p>}
+                    <label htmlFor="username">Username</label>
+                    <input
+                        value={values.username}
+                        onChange={handleChange}
+                        id="username"
+                        type="username"
+                        placeholder="Enter your username"
+                        onBlur={handleBlur}
+                        className={errors.username && touched.username ? "input-error" : ""}
+                    />
+                    {errors.username && touched.username && <p className="error">{errors.username}</p>}
                     <label htmlFor="password">Password</label>
                     <input
                         id="password"
@@ -87,11 +120,29 @@ export const NewAccountCreate = () => {
                     {errors.confirmPassword && touched.confirmPassword && (
                         <p className="error">{errors.confirmPassword}</p>
                     )}
-                    <button disabled={isSubmitting} type="submit">
+                    {isFetching ? <button>Ładuje się</button> : <button disabled={isSubmitting} type="submit">
                         Sign Up
-                    </button>
+                    </button>}
+
                     <span className='redirect'>Already have an account <Link href='/login'>Sign in</Link></span>
                 </form>
+                {isSuccessRegister
+                    && (
+                        <div
+                            className="error"
+                            role="alert"
+                        >
+                            Konto zostało utworzone pomyślnie, możesz się zalogować.
+                        </div>
+                    )}
+                {isError && registerErrorMessage && (
+                    <div
+                        className="error"
+                        role="alert"
+                    >
+                        {registerErrorMessage}
+                    </div>
+                )}
             </Signup>
         </Layout>
     )

@@ -1,16 +1,43 @@
 import Link from "next/link";
 import Layout from "../../layout/LayoutComponent";
 import {useFormik} from "formik";
-import {initialValues, validateFunction} from "../../validation/validation";
-import {SignupSchema} from "../../validation/schemaValidation";
+import {LogSchema} from "../../validation/schemaValidation";
 import styled from "styled-components";
+import {UseDispatchHook} from "../../hooks/useDispatchHook";
+import {LogUserResponseData} from "../../types";
+import {UseAppSelectorHook} from "../../hooks/useAppSelectorHook";
+import {useEffect} from "react";
+import {toast} from "react-toastify";
+import {logUser} from "../../redux/userSlice";
+import {UseHomeRouter} from "../../hooks/useHomeRouter";
 
 export const LogUser = () => {
-
-    const onSubmit = (value: any, action: any) => {
-        console.log(value)
+    const dispatch = UseDispatchHook();
+    const router = UseHomeRouter();
+    const {isSuccessLogin, isError, loginErrorMessage, isLogged} = UseAppSelectorHook((state) => state.user);
+    const onSubmit = async (values: LogUserResponseData, action: any) => {
+        const loginInfo = {
+            identifier: values.email,
+            password: values.password,
+        };
+        dispatch(logUser(loginInfo))
         action.resetForm();
+        await router.push('/profile')
     }
+
+    const notifyLogin = () => {
+        toast.success('Zostałeś pomyślnie zalogowany!', {
+            pauseOnFocusLoss: false,
+            pauseOnHover: false,
+            toastId: 'login-toast',
+        });
+    };
+
+    useEffect(() => {
+        if (isSuccessLogin) {
+            notifyLogin()
+        }
+    }, [isSuccessLogin])
 
     const {
         values,
@@ -20,7 +47,7 @@ export const LogUser = () => {
         handleBlur,
         handleChange,
         handleSubmit
-    } = useFormik({initialValues, validationSchema: SignupSchema, validate: validateFunction, onSubmit});
+    } = useFormik({initialValues: {email: '', password: ""}, validationSchema: LogSchema, onSubmit});
     return (
         <Layout title='Create new account' description='Register new account'
                 keywords='new account, profile, register, create'>
