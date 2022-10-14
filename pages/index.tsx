@@ -7,6 +7,7 @@ import {getData, getLatestData} from '../redux/dataSlice'
 import {UseAppSelectorHook} from '../hooks/useAppSelectorHook'
 import {RootState} from '../redux/store/store'
 import {ITEM_ON_PAGE} from '../api.config'
+import {UseHomeRouter} from "../hooks/useHomeRouter";
 
 const Home = () => {
     const [page, setPage] = useState<number>(1)
@@ -16,11 +17,15 @@ const Home = () => {
     const {data, isLoading, latest} = UseAppSelectorHook(
         (state: RootState) => state.data,
     )
-
-    const handlePage = useCallback((e: ChangeEvent<unknown>, value: number) => {
+    const {push} = UseHomeRouter();
+    const handlePage = useCallback(async (e: ChangeEvent<unknown>, value: number) => {
         e.preventDefault();
         setPage(value);
-    }, []);
+        await push('#articles', undefined, {
+            scroll: false
+        })
+
+    }, [push]);
 
 
     useEffect(() => {
@@ -31,7 +36,6 @@ const Home = () => {
         }))
         dispatch(getLatestData())
     }, [searchText, dispatch, itemsOnePage, page])
-
 
     return (
         <>
