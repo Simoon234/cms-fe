@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components'
-import { TypeTheme } from './global.theme'
+import {createGlobalStyle} from 'styled-components'
+import {TypeTheme} from './global.theme'
 
 const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
   html,
@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
   }
 `
 
