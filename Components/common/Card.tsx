@@ -15,29 +15,33 @@ interface Card {
     description: string;
     job: string;
     person: string;
-    width: number;
-    height: number;
     avatar: string;
 }
 
-const Card = ({ src, category, date, description, title, job, person, avatar, id, width, height }: Card) => {
+const Card = ({src, category, date, description, title, job, person, avatar, id}: Card) => {
     const {push} = UseHomeRouter();
     const [loading, setLoading] = useState(false);
+    const illegal = /[&\/\\#,+()$~%.'":*?<>{}]/g;
+    const replacedText = title.replace(illegal, '');
     const changePath = async () => {
         setLoading(true);
-        await push(`${id}/${category}/${title}`);
+        await push(`${id}/${category.toString()}/${replacedText}`);
         setLoading(false);
     }
+
+
     return (
         <a onClick={changePath}>
-            {loading ? <GlobalLoading/> :  <Cards>
-                <Image alt='image' src={src} width={width} height={height} />
+            {loading ? <GlobalLoading/> : <Cards>
+                <div className='image__box'>
+                    <Image alt='image' src={src} width={352} height={220}/>
+                </div>
                 <div className='category__wrapper'>
-                    <Categories category={category} date={date} />
+                    <Categories category={category} date={date}/>
                 </div>
                 <h3>{title}</h3>
                 <p>{description}</p>
-                <Author job={job} person={person} src={avatar} />
+                <Author job={job} person={person} src={avatar}/>
             </Cards>}
 
         </a>
@@ -47,23 +51,30 @@ const Card = ({ src, category, date, description, title, job, person, avatar, id
 export const Cards = styled.div`
   position: relative;
   max-width: 360px;
-  min-height: 506px;
+  min-height: 500px;
   width: 100%;
   border-radius: 12px;
   margin: 60px 30px 60px 0;
   transition: 250ms ease-in-out;
-  padding: 0.3rem;
+  padding: 0.4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 2px solid rgba(226, 223, 223, 0.41);
 
   &:hover {
     box-shadow: 0 0 10px white;
     cursor: pointer;
   }
 
-  img {
-    border-radius: 12px 12px 0 0;
+  .image__box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    img {
+      border-radius: 12px 12px 0 0;
+    }
   }
 
   .category__wrapper {
