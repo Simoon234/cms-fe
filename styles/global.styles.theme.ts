@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
   body {
     font-family: ${(props) => props.theme.font.fontFamily};
     background-color: ${props => props.theme.colors.backgroundColor};
+    cursor: default;
   }
 
   li {
