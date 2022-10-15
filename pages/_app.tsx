@@ -29,8 +29,8 @@ function MyApp({Component, pageProps}: AppProps) {
                         pauseOnHover={false}
                     />
                     <Header/>
+                    <Component {...pageProps}  />
                     <User/>
-                    <Component {...pageProps} />
                     <Footer />
                 </LayoutApp>
             </ThemeProvider>
