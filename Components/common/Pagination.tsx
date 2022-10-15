@@ -12,7 +12,7 @@ export const PaginationCompo = ({handlePage, totalPages, page}: Pagination) => {
     return (
         <PaginationWrapper>
             <Stack className='stack' spacing={10}>
-                <Pagination onChange={handlePage} color='secondary' page={page} count={totalPages}/>
+                <Pagination size='large' color='primary' onChange={handlePage} page={page} count={totalPages}/>
             </Stack>
         </PaginationWrapper>
     )
@@ -25,7 +25,8 @@ export const PaginationWrapper = styled.div`
   margin-top: 60px;
   color: white;
 
-  .stack {
-    color: white;
+  .MuiPagination-ul li button {
+    color: #ffffff !important;
   }
+
 `

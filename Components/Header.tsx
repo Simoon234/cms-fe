@@ -7,18 +7,23 @@ import {ChangeEvent, FC, FormEvent, useState} from 'react'
 import {DropDownMenu} from './common/DropDownMenu'
 import {UseDispatchHook} from "../hooks/useDispatchHook";
 import {getText} from "../redux/searchSlice";
+import {UseHomeRouter} from "../hooks/useHomeRouter";
 
 
 const Header: FC = () => {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
     const toggleOpenDropDown = () => setOpenDropDown(prev => !prev)
+    const {push} = UseHomeRouter();
     const [text, setText] = useState<string>('');
     const dispatch = UseDispatchHook();
 
 
-    const handleSearch = (e: FormEvent) => {
+    const handleSearch = async (e: FormEvent) => {
         e.preventDefault();
         dispatch(getText(text));
+        await push('#articles', undefined, {
+            scroll: false
+        })
     }
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {

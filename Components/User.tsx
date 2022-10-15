@@ -6,9 +6,11 @@ import {fetchUser} from "../redux/userSlice";
 export const User = () => {
     const dispatch = UseDispatchHook();
     useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
-            dispatch(fetchUser(localStorage.getItem('token')?.toString() as string));
-        }
+        (async () => {
+            if (localStorage.getItem('token') && localStorage.getItem('token') !== null) {
+                dispatch(await fetchUser(localStorage.getItem('token')?.toString() as string));
+            }
+        })()
     }, [dispatch]);
     return (
         <>

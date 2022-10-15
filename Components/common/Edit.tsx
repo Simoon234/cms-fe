@@ -56,8 +56,7 @@ export const EditComponent = ({close, id}: CloseModal) => {
                 'Content-type': 'application/json'
             }
         });
-        const a = await res.json();
-        console.log(a)
+        await res.json();
     }
 
 
@@ -74,6 +73,11 @@ export const EditComponent = ({close, id}: CloseModal) => {
             if (desc === '') {
                 setLoading(false);
                 return setDesc(article?.description)
+            }
+
+            if (image === null) {
+                setLoading(false);
+                return setImage(photo)
             }
 
             const {imageId} = await handleUpload();
@@ -102,7 +106,6 @@ export const EditComponent = ({close, id}: CloseModal) => {
             }
 
         } catch (e: any) {
-            console.log(e)
             console.error(e)
         }
     }
