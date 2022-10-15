@@ -26,7 +26,7 @@ export const getData = createAsyncThunk(
     'data/getData',
     async (values: any, thunk) => {
         try {
-            const res = await fetch(`${API_URL}/articles?filters[title][$contains]=${values.searchText}&populate=author,photo&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
+            const res = await fetch(`${API_URL}/articles?filters[title][$containsi]=${values.searchText}&populate=author,photo&sort[createdAt]=DESC&pagination[page]=${values.page}&pagination[pageSize]=${values.itemsOnePage}`)
             const data = await res.json()
             return {
                 data: data.data,

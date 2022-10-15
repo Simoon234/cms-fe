@@ -119,9 +119,10 @@ export const fetchUser = createAsyncThunk(
 
             const data = await user.json();
             if (user.status === 200) {
+                console.log(data)
                 return data;
             }
-
+            console.log(data)
             if (data.error.name === 'UnauthorizedError') {
                 return thunk.rejectWithValue({
                     message: data.error.message,
