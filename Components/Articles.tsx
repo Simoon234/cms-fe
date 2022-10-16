@@ -34,6 +34,7 @@ const Articles = ({data, isLoading, totalPages, page, handlePage}: Articles) => 
                         />}
                     </>,
                 )}
+                {data.data && data.data.length <= 0 && <h1>Nie ma</h1>}
             </ArticlesWrapper>
             <PaginationCompo handlePage={handlePage} totalPages={totalPages} page={page}/>
         </ArticlesSection>

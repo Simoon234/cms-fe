@@ -56,6 +56,12 @@ export interface Author {
 
 export interface Data {
     data: ResponseDataType[]
+    pagination: {
+        page: number;
+        pageCount: number;
+        totalPages: number;
+    }
+    page?: any
 }
 
 export interface ResponseDataType {

@@ -2,9 +2,25 @@ import {FC} from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import {UseAppSelectorHook} from "../../hooks/useAppSelectorHook";
+import {logout} from "../../redux/userSlice";
+import {UseHomeRouter} from "../../hooks/useHomeRouter";
+import {UseDispatchHook} from "../../hooks/useDispatchHook";
+import {toast} from "react-toastify";
 
 export const DropDownMenu: FC = () => {
     const {isLogged,} = UseAppSelectorHook(state => state.user);
+    const dispatch = UseDispatchHook();
+    const {push} = UseHomeRouter();
+    const handleLogout = async () => {
+        const confirmIt = confirm('Are you sure you want to log out?');
+        if (!confirmIt) return;
+        dispatch(logout());
+        await push('/');
+        toast.success('Successfully, log out!', {
+            pauseOnHover: false
+        })
+    }
+
     return (
         <Menu>
             <div className='wrap'>
@@ -13,7 +29,7 @@ export const DropDownMenu: FC = () => {
                         <Link href='/profile'>Profile</Link>
                         <Link href='/article/add'>Add article</Link>
                         <Link href='/article/all'>All articles</Link>
-                        <Link href='/logout'>Logout</Link>
+                        <span onClick={handleLogout}>Logout</span>
                     </>
 
                 ) : (
@@ -39,6 +55,12 @@ export const Menu = styled.div`
   .wrap {
     display: flex;
     flex-direction: column;
+
+    span {
+      padding: 5px 12px;
+      margin: 3px 0;
+      cursor: pointer;
+    }
 
     a {
       padding: 5px 12px;

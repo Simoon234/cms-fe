@@ -8,22 +8,40 @@ import {DropDownMenu} from './common/DropDownMenu'
 import {UseDispatchHook} from "../hooks/useDispatchHook";
 import {getText} from "../redux/searchSlice";
 import {UseHomeRouter} from "../hooks/useHomeRouter";
+import {closeModal} from "../redux/closeModalSlice";
+import {UseAppSelectorHook} from "../hooks/useAppSelectorHook";
 
 
 const Header: FC = () => {
-    const [openDropDown, setOpenDropDown] = useState<boolean>(false)
-    const toggleOpenDropDown = () => setOpenDropDown(prev => !prev)
-    const {push} = UseHomeRouter();
     const [text, setText] = useState<string>('');
     const dispatch = UseDispatchHook();
+    const {push, pathname} = UseHomeRouter();
+    const {isModalOpen} = UseAppSelectorHook(state => state.modal);
+
+    const toggleOpenDropDown = () => {
+        if (isModalOpen && isModalOpen) {
+            dispatch(closeModal(false))
+        } else {
+            dispatch(closeModal(true))
+        }
+    }
 
 
     const handleSearch = async (e: FormEvent) => {
         e.preventDefault();
         dispatch(getText(text));
-        await push('#articles', undefined, {
-            scroll: false
-        })
+
+        if (pathname === '/sports') {
+            await push(`#sports`, undefined, {
+                scroll: false
+            })
+        }
+
+        if (pathname === '/') {
+            await push(`#articles`, undefined, {
+                scroll: false
+            })
+        }
     }
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,10 +70,10 @@ const Header: FC = () => {
                         </li>
                         <li onClick={toggleOpenDropDown}>
                             Account
-                            {openDropDown ? <ArrowDropUpIcon/> : <ArrowDropDownIcon/>}
+                            {isModalOpen ? <ArrowDropUpIcon/> : <ArrowDropDownIcon/>}
                         </li>
                     </ul>
-                    {openDropDown && <DropDownMenu/>}
+                    {isModalOpen ? <DropDownMenu/> : ''}
                 </nav>
                 <div className='search__box'>
                     <SearchIcon className='icon'/>

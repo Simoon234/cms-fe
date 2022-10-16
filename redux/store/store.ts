@@ -3,13 +3,15 @@ import dataSlice from '../dataSlice'
 import {authorSlice} from '../authorSlice'
 import {searchSlice} from "../searchSlice";
 import userSlice from "../userSlice";
+import {toggleModal} from "../closeModalSlice";
 
 export const store = configureStore({
     reducer: {
         data: dataSlice,
         author: authorSlice.reducer,
         searchText: searchSlice.reducer,
-        user: userSlice
+        user: userSlice,
+        modal: toggleModal.reducer
     },
 })
 

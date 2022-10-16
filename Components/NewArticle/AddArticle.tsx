@@ -3,12 +3,14 @@ import {UseHomeRouter} from '../../hooks/useHomeRouter'
 import {Button} from '@mui/material'
 import Layout from '../../layout/LayoutComponent'
 import SendIcon from '@mui/icons-material/Send'
-import React, {FormEvent, useCallback, useState} from 'react'
+import React, {FormEvent, useCallback, useEffect, useState} from 'react'
 import {toast} from 'react-toastify'
 import {API_URL} from '../../api.config'
 import Image from "next/image";
 import {GlobalLoading} from "../common/GlobalLoading";
 import {UseAppSelectorHook} from "../../hooks/useAppSelectorHook";
+import {closeModal} from "../../redux/closeModalSlice";
+import {UseDispatchHook} from "../../hooks/useDispatchHook";
 
 
 // eslint-disable-next-line react/display-name
@@ -21,7 +23,13 @@ export const AddArticle = React.memo(() => {
     const [loading, setLoading] = useState<boolean>(false)
     const {push} = UseHomeRouter();
     const {id: authorId} = UseAppSelectorHook(state => state.user);
-    console.log(authorId)
+
+    const dispatch = UseDispatchHook();
+
+    useEffect(() => {
+        dispatch(closeModal(false))
+    }, [dispatch])
+
     const handleUpload = async () => {
         const formData = new FormData();
         formData.append('files', image as any);
@@ -35,7 +43,6 @@ export const AddArticle = React.memo(() => {
             id: data[0]?.id
         }
     }
-
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
         setLoading(true);

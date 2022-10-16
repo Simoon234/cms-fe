@@ -3,15 +3,22 @@ import {Box} from '../../../Components/common/Box'
 import {API_URL} from '../../../api.config'
 import {ResponseDataType} from '../../../types'
 import {UseAppSelectorHook} from '../../../hooks/useAppSelectorHook'
+import {useEffect} from "react";
+import {closeModal} from "../../../redux/closeModalSlice";
+import {UseDispatchHook} from '../../../hooks/useDispatchHook'
 
 
 const AllArticles = (data: any) => {
     const {id, isAuthMessage} = UseAppSelectorHook(state => state.user);
-    console.log(id)
     const getAllArticlesByAuthor = data.data.filter((item: any) => {
         return item.attributes.author.data.id === id
     })
-    console.log(getAllArticlesByAuthor)
+    const dispatch = UseDispatchHook();
+
+    useEffect(() => {
+        dispatch(closeModal(false))
+    }, [dispatch])
+
     return (
         <>
             {(isAuthMessage === '' && id) ? getAllArticlesByAuthor && getAllArticlesByAuthor.map((item: ResponseDataType) =>
