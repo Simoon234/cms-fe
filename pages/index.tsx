@@ -28,7 +28,7 @@ const Home = () => {
     return (
         <>
             <Layout title='Blog for you' keywords='sport, luxury, fashion' description='Super modern blog content'>
-                <HomeLp latest={latest.latest}/>
+                <HomeLp latest={latest?.latest}/>
                 <Articles handlePage={handlePage} data={data} page={page} isLoading={isLoading}
                           totalPages={data?.totalPages}/>
             </Layout>
