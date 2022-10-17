@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import {Data, ResponseDataType} from '../types'
 import {CardLoading} from './common/CardLoading'
 import {PaginationCompo} from "./common/Pagination";
+import {NotFoundLookingSearch} from "./NotFoundLookingSearch";
+import {UseAppSelectorHook} from "../hooks/useAppSelectorHook";
 
 interface Articles {
     data: Data,
@@ -14,6 +16,8 @@ interface Articles {
 
 const Articles = ({data, isLoading, totalPages, page, handlePage}: Articles) => {
     const firstLetterUppercase = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
+    const {searchText} = UseAppSelectorHook(state => state.searchText);
+
     return (
         <ArticlesSection>
             <h1 id='articles' className='header'>Articles</h1>
@@ -34,9 +38,10 @@ const Articles = ({data, isLoading, totalPages, page, handlePage}: Articles) => 
                         />}
                     </>,
                 )}
-                {data.data && data.data.length <= 0 && <h1>Nie ma</h1>}
+                {data.data && data.data.length <= 0 && <NotFoundLookingSearch textSearch={searchText}/>}
             </ArticlesWrapper>
-            <PaginationCompo handlePage={handlePage} totalPages={totalPages} page={page}/>
+            {data.data && data.data.length > 0 &&
+                <PaginationCompo handlePage={handlePage} totalPages={totalPages} page={page}/>}
         </ArticlesSection>
     )
 }
