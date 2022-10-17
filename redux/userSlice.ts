@@ -36,7 +36,8 @@ const initialState: UserSliceInitialState = {
         job: '',
         createdAt: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
+        bio: null
     }
 }
 
