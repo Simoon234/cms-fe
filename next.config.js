@@ -6,7 +6,7 @@ const nextConfig = {
     webpack5: false,
   },
   images: {
-    domains: ['localhost'],
+      domains: ['localhost', 'cdn-icons-png.flaticon.com'],
   },
 
 }
