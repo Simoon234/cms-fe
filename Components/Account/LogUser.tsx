@@ -10,6 +10,7 @@ import {useEffect} from "react";
 import {toast} from "react-toastify";
 import {logUser} from "../../redux/userSlice";
 import {UseHomeRouter} from "../../hooks/useHomeRouter";
+import {closeModal} from "../../redux/closeModalSlice";
 
 export const LogUser = () => {
     const dispatch = UseDispatchHook();
@@ -24,6 +25,10 @@ export const LogUser = () => {
         action.resetForm();
         await router.push('/profile')
     }
+
+    useEffect(() => {
+        dispatch(closeModal(false))
+    }, [dispatch])
 
     const notifyLogin = () => {
         toast.success('Zostałeś pomyślnie zalogowany!', {
