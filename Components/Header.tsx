@@ -10,6 +10,7 @@ import {getText} from "../redux/searchSlice";
 import {UseHomeRouter} from "../hooks/useHomeRouter";
 import {closeModal} from "../redux/closeModalSlice";
 import {UseAppSelectorHook} from "../hooks/useAppSelectorHook";
+import {UseScrollToInput} from "../hooks/useScrollToInput";
 
 
 const Header: FC = () => {
@@ -17,6 +18,7 @@ const Header: FC = () => {
     const dispatch = UseDispatchHook();
     const {push, pathname} = UseHomeRouter();
     const {isModalOpen} = UseAppSelectorHook(state => state.modal);
+    const {ref} = UseScrollToInput();
 
     const toggleOpenDropDown = () => {
         if (isModalOpen && isModalOpen) {
@@ -78,7 +80,8 @@ const Header: FC = () => {
                 <div className='search__box'>
                     <SearchIcon className='icon'/>
                     <form onSubmit={handleSearch}>
-                        <input onChange={handleOnChange} className='search' type='text' placeholder='Search...'/>
+                        <input ref={ref} onChange={handleOnChange} className='search' type='text'
+                               placeholder='Search...'/>
                     </form>
                 </div>
             </HeaderWrapper>
