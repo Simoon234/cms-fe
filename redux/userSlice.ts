@@ -1,12 +1,11 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import {DEFAULT_URL} from "../api.config";
-import {LogUserResponse, RegisterUser} from "../types";
+import {LogUserResponse, RegisterUser, User} from "../types";
 
 interface UserSliceInitialState {
     id: null | number;
     username: string;
     email: string;
-    avatar: string;
     isLogged: boolean;
     isFetching: boolean,
     isSuccessLogin: boolean,
@@ -15,12 +14,12 @@ interface UserSliceInitialState {
     registerErrorMessage: string;
     loginErrorMessage: string,
     isAuthMessage: string;
+    user: User;
 }
 
 const initialState: UserSliceInitialState = {
     id: null,
     username: '',
-    avatar: '',
     email: '',
     isLogged: false,
     isFetching: false,
@@ -29,7 +28,16 @@ const initialState: UserSliceInitialState = {
     registerErrorMessage: '',
     isError: false,
     loginErrorMessage: '',
-    isAuthMessage: ''
+    isAuthMessage: '',
+    user: {
+        username: '',
+        email: '',
+        avatar: '',
+        job: '',
+        createdAt: '',
+        firstname: '',
+        lastname: ''
+    }
 }
 
 
@@ -85,6 +93,7 @@ export const logUser = createAsyncThunk(
                 }
             })
             const data = await logUser.json();
+            console.log(data)
 
             if (logUser.status === 200) {
                 localStorage.setItem('token', data.jwt);
@@ -92,12 +101,13 @@ export const logUser = createAsyncThunk(
             }
 
             if (data.error.name === "ValidationError") {
-                console.log('elo')
                 return thunk.rejectWithValue({
                     ...data,
                     message: data.error.message
                 })
             }
+
+            return thunk.rejectWithValue(data);
         } catch (e: any) {
             return thunk.rejectWithValue({
                 ...e.response,
@@ -116,20 +126,16 @@ export const fetchUser = createAsyncThunk(
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-
             const data = await user.json();
             if (user.status === 200) {
-                console.log(data)
                 return data;
             }
-            console.log(data)
             if (data.error.name === 'UnauthorizedError') {
                 return thunk.rejectWithValue({
                     message: data.error.message,
                 });
             }
 
-            return thunk.rejectWithValue(data);
         } catch (e: any) {
             return thunk.rejectWithValue(e.response.data);
         }
@@ -178,7 +184,6 @@ const userSlice = createSlice({
             state.email = payload.email;
             state.username = payload.username;
             state.id = payload.id;
-            state.avatar = payload.avatar;
             return state;
         },
         [logUser.pending.toString()]: (state) => {
@@ -191,9 +196,7 @@ const userSlice = createSlice({
             state.loginErrorMessage = payload.message;
         },
         [fetchUser.fulfilled.toString()]: (state, {payload}) => {
-            state.email = payload.email;
-            state.username = payload.username;
-            state.id = payload.id;
+            state.user = payload;
             state.isLogged = true;
             state.isFetching = false;
             state.isAuthMessage = '';

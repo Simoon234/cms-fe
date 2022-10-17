@@ -95,21 +95,13 @@ export interface LogUserResponseData {
     password: string;
 }
 
-export interface UserStrapiResponse {
-    jwt: string;
-    user: {
-        blocked: boolean;
-        confirmed: boolean;
-        created_at: string;
-        email: string;
-        id: number;
-        role: {
-            description: string;
-            id: number;
-            name: string;
-            type: string;
-        };
-        updated_at: string;
-        username: string;
-    };
+export interface User {
+    avatar: string;
+    createdAt: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    job: string;
+    username: string;
+    bio: string | null;
 }
