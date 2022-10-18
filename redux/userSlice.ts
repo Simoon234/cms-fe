@@ -59,7 +59,6 @@ export const signNewUser = createAsyncThunk(
             })
 
             const data = await registerUser.json();
-            console.log(data)
             if (registerUser.status === 200) {
                 localStorage.setItem('token', data.jwt);
                 return data;
