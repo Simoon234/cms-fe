@@ -1,21 +1,34 @@
 import {API_URL} from "../../api.config";
-import {Data} from "../../types";
+import {ArticlesDataResponse} from "../../types";
 import {ArticlesCategory} from "../../Components/common/ArticlesCategory";
-import {GetStaticProps} from "next";
+import {GetServerSideProps} from "next";
+import qs from "qs";
 
-const Sports = ({data, pagination, page}: Data) => {
-    return <ArticlesCategory data={data} pagination={pagination} page={page}/>
+const Sports = ({data}: ArticlesDataResponse) => {
+    return <ArticlesCategory data={data} text='Sports'/>
 }
 
 
-export const getStaticProps: GetStaticProps = async () => {
-    const sports = await fetch(`${API_URL}/articles?filters[categories][$eq]=sport&populate=photo,author`);
+export const getServerSideProps: GetServerSideProps = async ({query: {title}}) => {
+    const query = qs.stringify({
+        filters: {
+            title: {
+                $containsi: title,
+            },
+            categories: {
+                $eq: 'sport',
+            }
+        },
+        populate: '*',
+    }, {
+        encodeValuesOnly: true
+    });
+    const sports = await fetch(`${API_URL}/articles?${query}`);
     const data = await sports.json();
 
     return {
         props: {
             data: data.data,
-            pagination: data.meta.pagination,
         },
     }
 }
