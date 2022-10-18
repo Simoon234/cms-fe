@@ -30,6 +30,7 @@ const initialState: UserSliceInitialState = {
     loginErrorMessage: '',
     isAuthMessage: '',
     user: {
+        id: '',
         username: '',
         email: '',
         avatar: '',
@@ -58,6 +59,7 @@ export const signNewUser = createAsyncThunk(
             })
 
             const data = await registerUser.json();
+            console.log(data)
             if (registerUser.status === 200) {
                 localStorage.setItem('token', data.jwt);
                 return data;
@@ -94,7 +96,6 @@ export const logUser = createAsyncThunk(
                 }
             })
             const data = await logUser.json();
-            console.log(data)
 
             if (logUser.status === 200) {
                 localStorage.setItem('token', data.jwt);
@@ -107,8 +108,6 @@ export const logUser = createAsyncThunk(
                     message: data.error.message
                 })
             }
-
-            return thunk.rejectWithValue(data);
         } catch (e: any) {
             return thunk.rejectWithValue({
                 ...e.response,
@@ -178,21 +177,24 @@ const userSlice = createSlice({
             state.isError = true;
         },
         [logUser.fulfilled.toString()]: (state, {payload}) => {
+            state.isError = false;
             state.isFetching = false;
             state.isLogged = true;
-            state.isSuccessRegister = true;
             state.isSuccessLogin = true;
             state.email = payload.email;
             state.username = payload.username;
+            state.loginErrorMessage = '';
             state.id = payload.id;
             return state;
         },
         [logUser.pending.toString()]: (state) => {
             state.isFetching = true;
+            state.isLogged = false;
         },
         [logUser.rejected.toString()]: (state, {payload}) => {
             state.isFetching = false;
             state.isSuccessLogin = false;
+            state.isLogged = false;
             state.isError = true;
             state.loginErrorMessage = payload.message;
         },
