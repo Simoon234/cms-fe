@@ -7,6 +7,7 @@ import {getData, getLatestData} from '../redux/dataSlice'
 import {UseAppSelectorHook} from '../hooks/useAppSelectorHook'
 import {RootState} from '../redux/store/store'
 import {UseHandlePage} from "../hooks/useHandlePage";
+import {closeModal} from "../redux/closeModalSlice";
 
 const Home = () => {
     const dispatch = UseDispatchHook()
@@ -23,6 +24,7 @@ const Home = () => {
             searchText
         }))
         dispatch(getLatestData())
+        dispatch(closeModal(false))
     }, [searchText, dispatch, itemsOnePage, page])
 
     return (

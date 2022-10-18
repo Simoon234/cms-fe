@@ -9,10 +9,12 @@ import {UseDispatchHook} from '../../../hooks/useDispatchHook'
 
 
 const AllArticles = (data: any) => {
-    const {id, isAuthMessage} = UseAppSelectorHook(state => state.user);
+    console.log(data)
+    const {user, isAuthMessage} = UseAppSelectorHook(state => state.user);
     const getAllArticlesByAuthor = data.data.filter((item: any) => {
-        return item.attributes.author.data.id === id
+        return item.attributes.author.data.id === user.id
     })
+    console.log(getAllArticlesByAuthor)
     const dispatch = UseDispatchHook();
 
     useEffect(() => {
@@ -21,7 +23,7 @@ const AllArticles = (data: any) => {
 
     return (
         <>
-            {(isAuthMessage === '' && id) ? getAllArticlesByAuthor && getAllArticlesByAuthor.map((item: ResponseDataType) =>
+            {(isAuthMessage === '' && user.id) ? getAllArticlesByAuthor && getAllArticlesByAuthor.map((item: ResponseDataType) =>
                 <Box key={item.id} attributes={item.attributes} id={item.id}/>,
             ) : <h1>{isAuthMessage}</h1>}
 

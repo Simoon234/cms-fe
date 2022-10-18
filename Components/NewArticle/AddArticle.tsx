@@ -22,7 +22,7 @@ export const AddArticle = React.memo(() => {
     const [prevImg, setPrevImg] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false)
     const {push} = UseHomeRouter();
-    const {id: authorId} = UseAppSelectorHook(state => state.user);
+    const {user} = UseAppSelectorHook(state => state.user);
 
     const dispatch = UseDispatchHook();
 
@@ -65,7 +65,7 @@ export const AddArticle = React.memo(() => {
                         description: desc,
                         categories: category,
                         photo: id,
-                        author: [authorId],
+                        author: [user.id],
                     },
                 }),
             })

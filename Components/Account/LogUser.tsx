@@ -14,35 +14,42 @@ import {closeModal} from "../../redux/closeModalSlice";
 
 export const LogUser = () => {
     const dispatch = UseDispatchHook();
-    const router = UseHomeRouter();
+    const {push} = UseHomeRouter();
     const {isSuccessLogin, isError, loginErrorMessage, isLogged} = UseAppSelectorHook((state) => state.user);
+
     const onSubmit = async (values: LogUserResponseData, action: any) => {
         const loginInfo = {
             identifier: values.email,
             password: values.password,
         };
-        dispatch(logUser(loginInfo))
-        action.resetForm();
-        await router.push('/profile')
+        try {
+            dispatch(logUser(loginInfo))
+            if (isSuccessLogin) {
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
+
 
     useEffect(() => {
         dispatch(closeModal(false))
     }, [dispatch])
 
     const notifyLogin = () => {
-        toast.success('Zostałeś pomyślnie zalogowany!', {
+        toast.success('You are successfully logged in!', {
             pauseOnFocusLoss: false,
             pauseOnHover: false,
-            toastId: 'login-toast',
         });
+
     };
 
     useEffect(() => {
         if (isSuccessLogin) {
             notifyLogin()
+            push('/profile')
         }
-    }, [isSuccessLogin])
+    }, [push, isLogged, isSuccessLogin])
 
     const {
         values,
@@ -86,6 +93,10 @@ export const LogUser = () => {
                     <button disabled={isSubmitting} type="submit">
                         Sign Up
                     </button>
+                    {isError && loginErrorMessage
+                        && (
+                            <p style={{margin: '5px 0 10px 0'}} className='error'>{loginErrorMessage}</p>
+                        )}
                     <span className='redirect'>Dont have an account? <Link href='/new-account'>Sign in</Link></span>
                 </form>
             </Signup>

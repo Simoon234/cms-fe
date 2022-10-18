@@ -8,9 +8,8 @@ import {UseDispatchHook} from "../../hooks/useDispatchHook";
 import {toast} from "react-toastify";
 
 export const DropDownMenu: FC = () => {
-    const {isLogged, username, email, isSuccessLogin} = UseAppSelectorHook(state => state.user);
+    const {isLogged} = UseAppSelectorHook(state => state.user);
 
-    console.log(isLogged, username, email, isSuccessLogin)
     const dispatch = UseDispatchHook();
     const {push} = UseHomeRouter();
     const handleLogout = async () => {

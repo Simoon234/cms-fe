@@ -96,6 +96,7 @@ export interface LogUserResponseData {
 }
 
 export interface User {
+    id: string;
     avatar: string;
     createdAt: string;
     email: string;

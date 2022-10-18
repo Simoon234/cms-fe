@@ -21,13 +21,12 @@ const Header: FC = () => {
     const {ref} = UseScrollToInput();
 
     const toggleOpenDropDown = () => {
-        if (isModalOpen && isModalOpen) {
+        if (isModalOpen) {
             dispatch(closeModal(false))
         } else {
             dispatch(closeModal(true))
         }
     }
-
 
     const handleSearch = async (e: FormEvent) => {
         e.preventDefault();
