@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Button } from '@mui/material'
-import { useRouter } from 'next/router'
+import {Button} from '@mui/material'
+import {useRouter} from 'next/router'
 
 const PageNotFound = () => {
     const router = useRouter()
@@ -46,6 +46,21 @@ export const Wrapper = styled.div`
       background-color: orange;
       color: white;
     }
+  }
+}
+
+.icon {
+  margin: 20px 0;
+  background: #6c6868;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: #FFA500;
+  cursor: pointer;
+  transition: 250ms ease;
+  
+  &:hover {
+    transform: translateY(-6px);
   }
 }
 

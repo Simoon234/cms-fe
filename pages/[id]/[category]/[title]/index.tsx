@@ -4,38 +4,54 @@ import Author from '../../../../Components/common/Author'
 import Image from 'next/image'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {ResponseDataType} from '../../../../types'
-import {DEFAULT_URL} from "../../../../api.config";
+import {DEFAULT_URL} from '../../../../api.config'
 
 interface Article {
     obj: {
-        article: ResponseDataType;
+        article: ResponseDataType
     }
 }
 
 const SingleArticleInfoDetails = ({obj}: Article) => {
-    const photo = obj?.article?.attributes?.photo?.data?.map(item => item?.attributes)[0];
-    console.log(obj)
-    const avatar = obj?.article?.attributes?.author?.data?.attributes?.avatar;
+    const photo = obj?.article?.attributes?.photo?.data?.map(
+        (item) => item?.attributes,
+    )[0]
+
+    console.log(photo)
+    const avatar = obj?.article?.attributes?.author?.data?.attributes?.avatar
     return (
         <Details>
-            <Categories category={obj?.article?.attributes?.categories}
-                        date={new Date(obj?.article?.attributes?.createdAt).toLocaleString()}/>
-            <div className='content'>
-                <h3>
-                    {obj?.article?.attributes?.title}
-                </h3>
+            <Categories
+                category={obj?.article?.attributes?.categories}
+                date={new Date(
+                    obj?.article?.attributes?.createdAt,
+                ).toLocaleString()}
+            />
+            <div className="content">
+                <h3>{obj?.article?.attributes?.title}</h3>
             </div>
-            <div className='author'>
+            <div className="author">
                 <Author
                     src={avatar}
-                    job={obj?.article?.attributes?.author?.data?.attributes?.job}
-                    person={obj?.article?.attributes?.author?.data?.attributes?.firstname}/>
+                    job={
+                        obj?.article?.attributes?.author?.data?.attributes?.job
+                    }
+                    person={
+                        obj?.article?.attributes?.author?.data?.attributes
+                            ?.firstname
+                    }
+                />
             </div>
-            <div>
-                <Image alt='big image' src={`${DEFAULT_URL}${photo?.formats?.thumbnail?.url}`}
-                       width={photo?.formats?.large?.width || 1000} height={photo?.formats?.large?.width || 600}/>
+            <div className="imageCont">
+                <Image
+                    alt="big image"
+                    src={`${DEFAULT_URL}${photo?.formats?.thumbnail?.url}`}
+                    width={700}
+                    height={400}
+                    priority
+                />
             </div>
-            <div className='description'>
+            <div className="description">
                 <p>{obj?.article?.attributes?.description}</p>
             </div>
         </Details>
@@ -43,58 +59,60 @@ const SingleArticleInfoDetails = ({obj}: Article) => {
 }
 
 export const Details = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 77px;
-  text-align: center;
-
-  .content {
-    width: 526px;
     display: flex;
     align-items: center;
-    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 77px;
+    text-align: center;
 
-    h3 {
-      margin: 11px 0 30px 0;
-      width: 100%;
-    }
-  }
+    .content {
+        width: 526px;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
 
-  img {
-    border-radius: 12px;
-    transition: 200ms ease-in-out;
-
-    &:hover {
-      border-radius: 12px;
-      transform: scale(1.2);
-    }
-  }
-
-  .author {
-    margin-bottom: 28px;
-  }
-
-  .description {
-    margin-top: 70px;
-    text-align: left;
-    width: 750px;
-
-    .first {
-      margin-bottom: 20px;
+        h3 {
+            margin: 11px 0 30px 0;
+            width: 100%;
+        }
     }
 
-    p {
-      line-height: 35px;
+    img {
+        border-radius: 12px;
+        transition: 200ms ease-in-out;
+
+        &:hover {
+            border-radius: 12px;
+            transform: scale(1.2);
+        }
     }
-  }
+
+    .author {
+        margin-bottom: 28px;
+    }
+
+    .description {
+        margin-top: 70px;
+        text-align: left;
+        width: 750px;
+
+        .first {
+            margin-bottom: 20px;
+        }
+
+        p {
+            line-height: 35px;
+        }
+    }
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const res = await fetch(`http://localhost:1337/api/articles?populate=author,photo`)
+    const res = await fetch(
+        `http://localhost:1337/api/articles?populate=author,photo`,
+    )
     const data = await res.json()
-    const illegal = /[&\/\\#,+()$~%.'":*?<>{}]/g;
+    const illegal = /[&\/\\#,+()$~%.'":*?<>{}]/g
     const paths = data.data.map((item: ResponseDataType) => ({
         params: {
             id: item.id.toString(),
@@ -109,9 +127,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const res = await fetch(`http://localhost:1337/api/articles?populate=author,photo`)
+    const res = await fetch(
+        `http://localhost:1337/api/articles?populate=author,photo`,
+    )
     const data = await res.json()
-    const article = data.data.find((item: ResponseDataType) => (item.id.toString()) === context.params?.id)
+    const article = data.data.find(
+        (item: ResponseDataType) => item.id.toString() === context.params?.id,
+    )
 
     const obj = {
         article,

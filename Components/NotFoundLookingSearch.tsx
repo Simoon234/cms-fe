@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 import {Wrapper} from '../pages/404'
-import {UseScrollToInput} from "../hooks/useScrollToInput";
+import {UseScrollAndSearch} from "../hooks/useScrollAndSearch";
+import NorthIcon from '@mui/icons-material/North';
 
 interface Search {
     textSearch: string;
 }
 
 export const NotFoundLookingSearch = ({textSearch}: Search) => {
-    const {executeScroll} = UseScrollToInput()
+    const {executeScroll} = UseScrollAndSearch()
+
     return (
         <Wrapper>
             <h2>Search: {textSearch}</h2>
@@ -15,7 +17,7 @@ export const NotFoundLookingSearch = ({textSearch}: Search) => {
                 <h1>No result!</h1>
                 <p>{`We couldn’t find any posts with the keyword (${textSearch}). Please try another keyword.`}</p>
             </MiddleText>
-            <button onClick={executeScroll}>Click me</button>
+            <NorthIcon className='icon' onClick={() => executeScroll()}>Click me</NorthIcon>
         </Wrapper>
     )
 }

@@ -3,22 +3,22 @@ import Link from 'next/link'
 import SearchIcon from '@mui/icons-material/Search'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
-import {ChangeEvent, FC, FormEvent, useState} from 'react'
+import {FC} from 'react'
 import {DropDownMenu} from './common/DropDownMenu'
 import {UseDispatchHook} from "../hooks/useDispatchHook";
-import {getText} from "../redux/searchSlice";
 import {UseHomeRouter} from "../hooks/useHomeRouter";
 import {closeModal} from "../redux/closeModalSlice";
 import {UseAppSelectorHook} from "../hooks/useAppSelectorHook";
-import {UseScrollToInput} from "../hooks/useScrollToInput";
+import {UseScrollAndSearch} from "../hooks/useScrollAndSearch";
+import {useSearchHook} from "../hooks/useSearchHook";
 
 
 const Header: FC = () => {
-    const [text, setText] = useState<string>('');
     const dispatch = UseDispatchHook();
-    const {push, pathname} = UseHomeRouter();
     const {isModalOpen} = UseAppSelectorHook(state => state.modal);
-    const {ref} = UseScrollToInput();
+    const {handleSearchTitle, onChange, term} = useSearchHook();
+    const {handleSearch, handleOnChange, text} = UseScrollAndSearch();
+    const {pathname} = UseHomeRouter();
 
     const toggleOpenDropDown = () => {
         if (isModalOpen) {
@@ -26,27 +26,6 @@ const Header: FC = () => {
         } else {
             dispatch(closeModal(true))
         }
-    }
-
-    const handleSearch = async (e: FormEvent) => {
-        e.preventDefault();
-        dispatch(getText(text));
-
-        if (pathname === '/sports') {
-            await push(`#sports`, undefined, {
-                scroll: false
-            })
-        }
-
-        if (pathname === '/') {
-            await push(`#articles`, undefined, {
-                scroll: false
-            })
-        }
-    }
-
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setText(e.target.value);
     }
 
     return (
@@ -76,13 +55,21 @@ const Header: FC = () => {
                     </ul>
                     {isModalOpen ? <DropDownMenu/> : ''}
                 </nav>
-                <div className='search__box'>
-                    <SearchIcon className='icon'/>
-                    <form onSubmit={handleSearch}>
-                        <input ref={ref} onChange={handleOnChange} className='search' type='text'
-                               placeholder='Search...'/>
-                    </form>
-                </div>
+                {(pathname === '/fashion' || pathname === '/luxury' || pathname === '/sports') ?
+                    <div className='search__box'>
+                        <SearchIcon className='icon'/>
+                        <form onSubmit={handleSearchTitle}>
+                            <input onChange={onChange} value={term} className='search' type='text'
+                                   placeholder='Search...'/>
+                        </form>
+                    </div> :
+                    <div className='search__box'>
+                        <SearchIcon className='icon'/>
+                        <form onSubmit={handleSearch}>
+                            <input onChange={handleOnChange} value={text} className='search' type='text'
+                                   placeholder='Search...'/>
+                        </form>
+                    </div>}
             </HeaderWrapper>
         </>
 

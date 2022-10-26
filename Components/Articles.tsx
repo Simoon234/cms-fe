@@ -2,65 +2,111 @@ import Card from './common/Card'
 import styled from 'styled-components'
 import {Data, ResponseDataType} from '../types'
 import {CardLoading} from './common/CardLoading'
-import {PaginationCompo} from "./common/Pagination";
-import {NotFoundLookingSearch} from "./NotFoundLookingSearch";
-import {UseAppSelectorHook} from "../hooks/useAppSelectorHook";
+import {PaginationCompo} from './common/Pagination'
+import {NotFoundLookingSearch} from './NotFoundLookingSearch'
+import {UseAppSelectorHook} from '../hooks/useAppSelectorHook'
 
 interface Articles {
-    data: Data,
-    isLoading: boolean;
-    totalPages: number;
-    page: number;
-    handlePage: (e: any, value: number) => void;
+    data: Data
+    isLoading: boolean
+    totalPages: number
+    page: number
+    handlePage: (e: any, value: number) => void
 }
 
-const Articles = ({data, isLoading, totalPages, page, handlePage}: Articles) => {
-    const firstLetterUppercase = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
-    const {searchText} = UseAppSelectorHook(state => state.searchText);
+const Articles = ({
+                      data,
+                      isLoading,
+                      totalPages,
+                      page,
+                      handlePage,
+                  }: Articles) => {
+    const firstLetterUppercase = (text: string) =>
+        text.charAt(0).toUpperCase() + text.slice(1)
+    const {searchText} = UseAppSelectorHook((state) => state.searchText)
 
     return (
         <ArticlesSection>
-            <h1 id='articles' className='header'>Articles</h1>
+            <h1 id="articles" className="header">
+                Articles
+            </h1>
             <ArticlesWrapper>
-                {data.data && data.data.map((item: ResponseDataType) =>
-                    <>
-                        {isLoading ? <CardLoading/> : <Card
-                            description={item.attributes.description.length < 300 ? item.attributes.description : `${item.attributes.description.slice(0, 166)}...`}
-                            key={item.id}
-                            id={item.id.toString()}
-                            avatar={item.attributes.author.data.attributes.avatar}
-                            category={item.attributes.categories}
-                            job={item.attributes.author.data.attributes.job}
-                            person={`${firstLetterUppercase(item.attributes.author.data.attributes.firstname)} ${item.attributes.author.data.attributes.lastname.slice(0, 2)}.`}
-                            date={new Date(item.attributes.createdAt).toLocaleString()}
-                            title={item.attributes.title}
-                            src={`http://localhost:1337${item.attributes.photo.data.map((item) => item.attributes.formats.thumbnail.url)}`}
-                        />}
-                    </>,
+                {data.data &&
+                    data.data.map((item: ResponseDataType) => (
+                        <>
+                            {isLoading ? (
+                                <CardLoading/>
+                            ) : (
+                                <Card
+                                    description={
+                                        item.attributes.description.length < 300
+                                            ? item.attributes.description
+                                            : `${item.attributes.description.slice(
+                                                0,
+                                                166,
+                                            )}...`
+                                    }
+                                    key={item.id}
+                                    id={item.id.toString()}
+                                    avatar={
+                                        item.attributes.author.data.attributes
+                                            .avatar
+                                    }
+                                    category={item.attributes.categories}
+                                    job={
+                                        item.attributes.author.data.attributes
+                                            .job
+                                    }
+                                    person={`${firstLetterUppercase(
+                                        item.attributes.author.data.attributes
+                                            .firstname,
+                                    )} ${item.attributes.author.data.attributes.lastname.slice(
+                                        0,
+                                        2,
+                                    )}.`}
+                                    date={new Date(
+                                        item.attributes.createdAt,
+                                    ).toLocaleString()}
+                                    title={item.attributes.title}
+                                    src={`http://localhost:1337${item.attributes.photo.data.map(
+                                        (item) =>
+                                            item.attributes.formats.thumbnail
+                                                .url,
+                                    )}`}
+                                />
+                            )}
+                        </>
+                    ))}
+                {data.data && data.data.length <= 0 && (
+                    <NotFoundLookingSearch textSearch={searchText}/>
                 )}
-                {data.data && data.data.length <= 0 && <NotFoundLookingSearch textSearch={searchText}/>}
             </ArticlesWrapper>
-            {data.data && data.data.length > 0 &&
-                <PaginationCompo handlePage={handlePage} totalPages={totalPages} page={page}/>}
+            {data.data && data.data.length > 0 && (
+                <PaginationCompo
+                    handlePage={handlePage}
+                    totalPages={totalPages}
+                    page={page}
+                />
+            )}
         </ArticlesSection>
     )
 }
 
 export const ArticlesSection = styled.section`
-  position: relative;
+    position: relative;
 
-  h1 {
-    margin: 40px 0;
-    font-size: 3rem;
-    color: white;
-  }
+    h1 {
+        margin: 40px 0;
+        font-size: 3rem;
+        color: white;
+    }
 `
 
 export const ArticlesWrapper = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 `
 
 export default Articles

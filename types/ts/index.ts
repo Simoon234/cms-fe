@@ -2,41 +2,41 @@ export enum Categories {
     'sports' = 'sports',
     'luxury' = 'luxury',
     'fashion' = 'fashion',
-    'all' = 'all'
+    'all' = 'all',
 }
 
 export interface Photo {
-    data: Image[];
+    data: Image[]
 }
 
 export interface Image {
-    id: string;
+    id: string
     attributes: {
-        alt: string;
-        width: number;
-        height: number;
+        alt: string
+        width: number
+        height: number
         formats: {
             large?: {
-                mime: string;
-                url: string;
-                height: number;
-                width: string;
+                mime: string
+                url: string
+                height: number
+                width: string
             }
             small?: {
-                mime: string;
-                url: string;
-                height: number;
-                width: string;
+                mime: string
+                url: string
+                height: number
+                width: string
             }
             medium?: {
-                mime: string;
-                url: string;
-                height: number;
-                width: string;
+                mime: string
+                url: string
+                height: number
+                width: string
             }
             thumbnail: {
-                url: string;
-                width: string;
+                url: string
+                width: string
             }
         }
     }
@@ -44,12 +44,12 @@ export interface Image {
 
 export interface Author {
     data: {
-        id: string;
+        id: string
         attributes: {
-            firstname: string;
-            job: string;
-            lastname: string;
-            avatar: string;
+            firstname: string
+            job: string
+            lastname: string
+            avatar: string
         }
     }
 }
@@ -57,52 +57,57 @@ export interface Author {
 export interface Data {
     data: ResponseDataType[]
     pagination: {
-        page: number;
-        pageCount: number;
-        totalPages: number;
+        page: number
+        pageCount: number
+        totalPages: number
     }
     page?: any
 }
 
+export interface ArticlesDataResponse {
+    data: ResponseDataType[]
+    text: string
+}
+
 export interface ResponseDataType {
-    id: number;
+    id: number
     attributes: {
-        categories: Categories,
-        createdAt: string;
-        title: string;
-        description: string;
-        photo: Photo;
-        author: Author;
+        categories: Categories
+        createdAt: string
+        title: string
+        description: string
+        photo: Photo
+        author: Author
     }
 }
 
 export interface RegisterUser {
-    username: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    avatar: string;
+    username: string
+    firstname: string
+    lastname: string
+    email: string
+    password: string
+    avatar: string
 }
 
 export interface LogUserResponse {
-    identifier: string;
-    password: string;
+    identifier: string
+    password: string
 }
 
 export interface LogUserResponseData {
-    email: string;
-    password: string;
+    email: string
+    password: string
 }
 
 export interface User {
-    id: string;
-    avatar: string;
-    createdAt: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-    job: string;
-    username: string;
-    bio: string | null;
+    id: string
+    avatar: string
+    createdAt: string
+    email: string
+    firstname: string
+    lastname: string
+    job: string
+    username: string
+    bio: string | null
 }

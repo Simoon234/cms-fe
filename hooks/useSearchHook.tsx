@@ -9,12 +9,13 @@ export const useSearchHook = () => {
 
     const handleSearchTitle = async (e: FormEvent) => {
         e.preventDefault()
-        await push(`/${pathname}?title=${term}`)
         setTerm('');
+        await push(`/${pathname}?title=${term}`)
     }
 
     return {
         handleSearchTitle,
-        onChange
+        onChange,
+        term,
     }
 }
