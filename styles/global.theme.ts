@@ -9,6 +9,7 @@ export interface TypeTheme {
         h3FontColor: string;
         pFontColor: string;
     }
+    open: boolean;
 }
 
 const theme: TypeTheme = {
@@ -22,6 +23,7 @@ const theme: TypeTheme = {
         h3FontColor: '#FFFFFF',
         pFontColor: '#cdc8c8',
     },
+    open: false,
 }
 
 export default theme

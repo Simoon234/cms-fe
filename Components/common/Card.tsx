@@ -63,26 +63,30 @@ const Card = ({
 export const Cards = styled.div`
     position: relative;
     max-width: 360px;
-    min-height: 500px;
+  min-height: 500px;
+  width: 100%;
+  border-radius: 12px;
+  margin: 60px 30px 60px 0;
+  transition: 250ms ease-in-out;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid rgba(226, 223, 223, 0.41);
+
+  @media (max-width: 800px) {
+    margin: 60px 0 60px 0;
+  }
+
+  &:hover {
+    box-shadow: 0 0 10px white;
+    cursor: pointer;
+  }
+
+  .image__box {
+    position: relative;
     width: 100%;
-    border-radius: 12px;
-    margin: 60px 30px 60px 0;
-    transition: 250ms ease-in-out;
-    padding: 0.4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 2px solid rgba(226, 223, 223, 0.41);
-
-    &:hover {
-        box-shadow: 0 0 10px white;
-        cursor: pointer;
-    }
-
-    .image__box {
-        position: relative;
-        width: 100%;
-        height: 100%;
+    height: 100%;
 
         img {
             border-radius: 12px 12px 0 0;

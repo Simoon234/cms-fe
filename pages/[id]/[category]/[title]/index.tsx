@@ -59,52 +59,52 @@ const SingleArticleInfoDetails = ({obj}: Article) => {
 }
 
 export const Details = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 77px;
+  text-align: center;
+
+  .content {
+    max-width: 526px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 77px;
-    text-align: center;
+    margin: 0 auto;
 
-    .content {
-        width: 526px;
-        display: flex;
-        align-items: center;
-        margin: 0 auto;
+    h3 {
+      margin: 11px 0 30px 0;
+      max-width: 800px;
+    }
+  }
 
-        h3 {
-            margin: 11px 0 30px 0;
-            width: 100%;
-        }
+  img {
+    border-radius: 12px;
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      border-radius: 12px;
+      transform: scale(1.2);
+    }
+  }
+
+  .author {
+    margin-bottom: 28px;
+  }
+
+  .description {
+    margin-top: 70px;
+    text-align: left;
+    max-width: 750px;
+
+    .first {
+      margin-bottom: 20px;
     }
 
-    img {
-        border-radius: 12px;
-        transition: 200ms ease-in-out;
-
-        &:hover {
-            border-radius: 12px;
-            transform: scale(1.2);
-        }
+    p {
+      line-height: 35px;
     }
-
-    .author {
-        margin-bottom: 28px;
-    }
-
-    .description {
-        margin-top: 70px;
-        text-align: left;
-        width: 750px;
-
-        .first {
-            margin-bottom: 20px;
-        }
-
-        p {
-            line-height: 35px;
-        }
-    }
+  }
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {

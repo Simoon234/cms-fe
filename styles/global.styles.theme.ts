@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle<{ theme: TypeTheme }>`
   }
 
   h3 {
-    width: 339px;
+    max-width: 339px;
     font-size: 24px;
     line-height: 38px;
     margin-bottom: 10px;

@@ -121,6 +121,7 @@ export const EditComponent = ({close, id}: CloseModal) => {
             <div className='content__layout'>
                 <div className='content'>
                     <h1>Edit</h1>
+                    <span onClick={close} className='close'>X</span>
                     <form onSubmit={handleUpdate}>
                         <div>
                             <label htmlFor=''>
@@ -155,6 +156,17 @@ export const EditComponent = ({close, id}: CloseModal) => {
 }
 
 export const Edit = styled.div`
+  position: relative;
+
+  .close {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff
+  }
+
   .layer {
     position: fixed;
     left: 0;
@@ -166,14 +178,14 @@ export const Edit = styled.div`
     overflow: hidden;
   }
 
-
   .content__layout {
     position: fixed;
-    left: 14%;
-    top: 12%;
-    background: #e2dcdc;
+    top: 5%;
+    background: #3D3F48;
+    border: 4px solid white;
     border-radius: 12px;
     z-index: 200;
+    width: 70%;
 
     .content {
       text-align: center;
@@ -188,11 +200,18 @@ export const Edit = styled.div`
         align-items: center;
         justify-content: flex-start;
         padding: 2rem;
+        height: 80vh;
+        color: white;
+
+        @media (max-width: 1050px) {
+          flex-direction: column;
+          overflow: scroll;
+          overflow-x: hidden;
+        }
 
         label, textarea {
           display: flex;
           flex-direction: column;
-          width: 500px;
           margin-top: 10px;
           padding: 1rem;
           resize: none;
@@ -200,13 +219,27 @@ export const Edit = styled.div`
           span {
             margin-bottom: 20px;
             color: #e68317;
+            font-size: 2rem;
           }
         }
 
         input {
           margin-bottom: 10px;
           padding: 1rem;
+          min-width: 450px;
         }
+
+        @media (max-width: 730px) {
+          input {
+            min-width: 300px;
+          }
+        }
+        @media (max-width: 480px) {
+          input {
+            min-width: 150px;
+          }
+        }
+
       }
     }
   }

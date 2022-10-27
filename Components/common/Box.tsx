@@ -38,7 +38,6 @@ export const Box = (data: ResponseDataType) => {
 
 
     const photo = data.attributes.photo.data.map((item) => item.attributes.formats.thumbnail.url)[0];
-    console.log(photo)
     return (
         <>
             <BoxContainer>
@@ -71,6 +70,8 @@ export const Box = (data: ResponseDataType) => {
 
     )
 }
+
+
 export const BoxContainer = styled.div`
   display: flex;
   align-items: center;
@@ -80,6 +81,12 @@ export const BoxContainer = styled.div`
   background-color: #2f3857;
   margin: 20px auto;
   border-radius: 10px;
+
+  @media (max-width: 1050px) {
+    flex-direction: column;
+    max-width: 80%;
+    text-align: center;
+  }
 
   .image__box img {
     border-radius: 12px;
@@ -97,6 +104,18 @@ export const BoxContainer = styled.div`
       font-style: italic;
       margin-bottom: 20px;
     }
+
+    @media (max-width: 1050px) {
+      padding: 0.5rem;
+      margin-right: 0;
+      h4 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 1.4rem;
+      }
+    }
   }
 
   .group-icon {
@@ -104,8 +123,14 @@ export const BoxContainer = styled.div`
     flex-direction: column;
     color: #173dff;
 
+    @media (max-width: 1050px) {
+      display: flex;
+      flex-direction: row;
+    }
+
     .icon {
       color: #ff9312;
     }
   }
+
 `

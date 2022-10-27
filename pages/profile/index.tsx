@@ -130,6 +130,10 @@ export const UserProfile = styled.div`
     margin: 0 auto;
     padding: 1rem;
 
+    @media (max-width: 950px) {
+      width: 90%;
+    }
+
     label {
       font-size: 1.5rem;
       font-weight: bold;

@@ -36,6 +36,6 @@ export const UseScrollAndSearch = () => {
         executeScroll,
         handleSearch,
         handleOnChange,
-        text
+        text,
     }
 }

@@ -148,6 +148,10 @@ export const FormWrapper = styled.div`
       width: 60%;
       padding: 1rem;
 
+      @media (max-width: 800px) {
+        width: 90%;
+      }
+
       label, select {
         margin-bottom: 22px;
       }
@@ -165,15 +169,24 @@ export const FormWrapper = styled.div`
         justify-content: space-between;
         align-items: center;
 
+        @media (max-width: 420px) {
+          display: flex;
+          flex-direction: column;
+
+          .send {
+            margin-top: 2rem;
+          }
+        }
+
         .send {
           background-color: #f7c70f;
         }
       }
     }
   }
-  
+
   .imgShow {
-    
+
     img {
       border-radius: 12px;
     }
